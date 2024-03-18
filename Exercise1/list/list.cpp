@@ -5,16 +5,20 @@ namespace lasd {
 
 //-----------------------NODE-----------------------------
 template <typename Data>
+//Constructor given the data 
 inline List<Data>::Node::Node(Data&& data) noexcept{
   std::swap(element, data);
+  next = nullptr;
 }
 
+//Constructor given another Node COPY
 template <typename Data>
 inline List<Data>::Node::Node(const Node& node){
   element = node.element;
   next = node.next;
 }
 
+//Constructor given another Node MOVE
 template <typename Data>
 inline List<Data>::Node::Node(Node&& node) noexcept{
   std::swap(element, node.element);
@@ -38,7 +42,7 @@ bool inline List<Data>::Node::operator!=(const Node& node) const noexcept{
 //-----------------------LIST-----------------------------
 
 template <typename Data>
-List<Data>::List(const MappableContainer<Data>& mc ){
+List<Data>::List(const MappableContainer<Data>& mc){
   //Viene usata la map di cui sto facendo override o la map precedente?
   size = mc.Size();
   List l = new list[size];

@@ -16,8 +16,8 @@ namespace lasd {
 
 template <typename Data>
 class List : virtual public ClearableContainer,
-	     virtual public DictionaryContainer<Data>,
-	     virtual public LinearContainer<Data>{
+	           virtual public DictionaryContainer<Data>,
+	           virtual public LinearContainer<Data>{
               // Must extend ClearableContainer,
               //             DictionaryContainer<Data>,
               //             LinearContainer<Data>
@@ -54,7 +54,7 @@ protected:
     /* ********************************************************************** */
 
     // Destructor
-    virtual inline ~Node();
+    virtual inline ~Node() = default;
 
     /* ********************************************************************** */
 
@@ -76,21 +76,21 @@ protected:
 public:
 
   // Default constructor
-  List() = default;
+  inline List() = default;
 
   /* ************************************************************************ */
 
   // Specific constructor
-  List(const MappableContainer<Data>&); // A list obtained from a MappableContainer
-  List(MutableMappableContainer<Data>&&) noexcept; // A list obtained from a MutableMappableContainer
+  inline List(const MappableContainer<Data>&); // A list obtained from a MappableContainer
+  inline List(MutableMappableContainer<Data>&&) noexcept; // A list obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
   // Copy constructor
-  List(const List<Data>&);
+  List(const List&);
 
   // Move constructor
-  List(List<Data> &&) noexcept;
+  List(List &&) noexcept;
 
   /* ************************************************************************ */
 
@@ -100,16 +100,16 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  List<Data>& operator=(const List<Data>&);
+  List& operator=(const List&);
 
   // Move assignment
-  List<Data>& operator=(List<Data>&&) noexcept;
+  List& operator=(List&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(const List<Data>&) const noexcept;
-  bool operator!=(const List<Data>&) const noexcept;
+  bool operator==(const List&) const noexcept;
+  bool operator!=(const List&) const noexcept;
 
   /* ************************************************************************ */
 
@@ -118,11 +118,10 @@ public:
   void InsertAtFront(const Data&) noexcept; // Copy of the value
   void InsertAtFront(Data&&) noexcept; // Move of the value
   void RemoveFromFront(); // (must throw std::length_error when empty)
-  //Data o Data&?
-  Data& FrontNRemove(); // (must throw std::length_error when empty)
+  Data FrontNRemove(); // (must throw std::length_error when empty)
 
   //Oltre al puntatore alla testa ho il puntatore alla coda per fare queste due cose
-  void InsertAtBack(const Data&); // Copy of the value
+  void InsertAtBack(const Data&) noexcept; // Copy of the value
   void InsertAtBack(Data&&) noexcept; // Move of the value
 
   /* ************************************************************************ */
@@ -143,8 +142,8 @@ public:
 
   // Specific member functions (inherited from LinearContainer)
   // Deve scorrere necessariamente la lista, sarà costoso tanto quanto la lontananza dell'elemento dalla lista
-  const Data& operator[](const ulong index) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
-  Data& operator[](const ulong index) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
+  const Data& operator[](const ulong) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
+  Data& operator[](const ulong) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
 
   const Dat & Front() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
   Data& Front() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)

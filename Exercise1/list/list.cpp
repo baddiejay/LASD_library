@@ -290,6 +290,7 @@ bool List<Data>::Insert(Data&& data) noexcept override{
     } 
 }
 
+//Remove one node but keeps the connection with his next
 template <typename Data>
 bool List<Data>::Remove(const Data& data) override{
   if (head == nullptr) {
@@ -303,6 +304,7 @@ bool List<Data>::Remove(const Data& data) override{
 
     while (tmpNode2 != nullptr) {
       if (tmpNode2->data == data) {
+        //When I've found the one i want to delete i connect the previous with the next 
         tmpNode1->next = tmpNode2->next;
         delete tmpNode2;
         tmpNode2 = nullptr;

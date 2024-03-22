@@ -37,16 +37,17 @@ public:
   /* ************************************************************************ */
 
   // Specific constructor
-  StackLst(const MappableContainer<Data>&); // A stack obtained from a MappableContainer
-  StackLst(MutableMappableContainer<Data>&&) noexcept; // A stack obtained from a MutableMappableContainer
+  //Calling directly the constructor of the class List
+  StackLst(const MappableContainer<Data>& mc) : List<Data>(mc) {}; // A stack obtained from a MappableContainer
+  StackLst(MutableMappableContainer<Data>&& mmc) noexcept : List<Data>(mmc) {}; // A stack obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
   // Copy constructor
-  StackLst(const Stack<Data>&);
+  StackLst(const Stack<Data>& cpy) : List<Data>(cpy) {};
 
   // Move constructor
-  StackLst(Stack<Data>&&) noexcept;
+  StackLst(Stack<Data>&& mve) noexcept : List<Data>(std::move(mve)) {};
 
   /* ************************************************************************ */
 
@@ -64,7 +65,7 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(const StackLst<Data>&) const noexcept;
+  inline bool operator==(const StackLst<Data>&) const noexcept;
   inline bool operator!=(const StackLst<Data>&) const noexcept;
 
   /* ************************************************************************ */

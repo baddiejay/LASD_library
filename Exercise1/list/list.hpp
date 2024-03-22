@@ -103,7 +103,7 @@ public:
   List& operator=(const List<Data>&);
 
   // Move assignment
-  List& operator=(Lis<Data>&&) noexcept;
+  List& operator=(List<Data>&&) noexcept;
 
   /* ************************************************************************ */
 

@@ -14,7 +14,8 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class StackVec {
+class StackVec : virtual public Stack<Data>,
+                 virtual protected Vector<Data>{
                   // Must extend Stack<Data>,
                   //             Vector<Data>
 
@@ -24,47 +25,47 @@ private:
 
 protected:
 
-  // using Vector<Data>::???;
+  using Vector<Data>::size;
 
   // ...
 
 public:
 
   // Default constructor
-  // StackVec() specifier;
+  StackVec() = default;
 
   /* ************************************************************************ */
 
   // Specific constructor
-  // StackVec(argument) specifiers; // A stack obtained from a MappableContainer
-  // StackVec(argument) specifiers; // A stack obtained from a MutableMappableContainer
+  StackVec(const MappableContainer<Data>&); // A stack obtained from a MappableContainer
+  StackVec(const MutableMappableContainer<Data>&&) noexcept; // A stack obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
   // Copy constructor
-  // StackVec(argument);
+  StackVec(const StackVec<Data>&);
 
   // Move constructor
-  // StackVec(argument);
+  StackVec(StackVec<Data>&&) noexcept;
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~StackVec() specifier;
+  ~StackVec() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument);
+  StackVec<Data>& operator=(const StackVec<Data>&);
 
   // Move assignment
-  // type operator=(argument);
+  StackVec<Data>& operator=(StackVec<Data>&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
+  bool operator==(const StackVec<Data>&) const noexcept;
+  inline bool operator!=(const StackVec<Data>&) const noexcept;
 
   /* ************************************************************************ */
 

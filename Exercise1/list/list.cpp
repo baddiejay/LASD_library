@@ -381,6 +381,105 @@ Data& List<Data>::Back() override{
  throw std::length_error("Acces to an empty List");
 }
 
+//MAP AND FOLD -------
+template <typename Data>
+void List<Data>::PreOrderFold(FoldFunctor fun, void * acc, const Node * cur) const {
+
+  for (; cur!=nullptr; cur=cur->next){
+    fun(cur->data, acc);
+  }
+}
+
+template <typename Data>
+void List<Data>::PostOrderFold(FoldFunctor fun, void * acc, const Node * cur) const {
+
+  if (cur!=nullptr){
+    //Recursive call until i reach the end
+    PostOrderFold(fun, acc, cur->next);
+    fun(cur->data, acc);
+  }
+}
+
+template <typename Data>
+void List<Data>::PreOrderMap(MapFunctor fun, const Node * cur) const {
+
+  for (; cur!=nullptr; cur=cur->next){
+    fun(cur->data);
+  }
+}
+
+template <typename Data>
+void List<Data>::PostOrderMap(MapFunctor fun, const Node * cur) const {
+
+  if (cur!=nullptr){
+    PostOrderMap(fun, cur->next);
+    fun(cur->data);
+  }
+}
+
+template <typename Data>
+void List<Data>::PreOrderMap(MutableMapFunctor fun, Node * cur) {
+
+  for (; cur!=nullptr; cur=cur->next){
+    fun(cur->data);
+  }
+}
+
+
+template <typename Data>
+void List<Data>::PostOrderMap(MutableMapFunctor fun, Node * cur) {
+
+  if (cur!=nullptr){
+    PostOrderMap(fun, cur->next);
+    fun(cur->data);
+  }
+}
+
+template <typename Data>
+void List<Data>::PreOrderFold(FoldFunctor fun, void * acc) const {
+  PreOrderFold(fun, acc, head);
+}
+
+template <typename Data>
+void List<Data>::PostOrderFold(FoldFunctor fun, void * acc) const {
+  PostOrderFold(fun, acc, head);
+}
+
+template <typename Data>
+void List<Data>::PreOrderMap(MapFunctor fun) const {
+  PreOrderMap(fun, head);
+}
+
+template <typename Data>
+void List<Data>::PostOrderMap(MapFunctor fun) const {
+  PostOrderMap(fun, head);
+}
+
+template <typename Data>
+void List<Data>::PreOrderMap(MutableMapFunctor fun) {
+  PreOrderMap(fun, head);
+}
+
+template <typename Data>
+void List<Data>::PostOrderMap(MutableMapFunctor fun) {
+  PostOrderMap(fun, head);
+}
+
+template <typename Data>
+void List<Data>::Fold(FoldFunctor fun, void * acc) const {
+  PreOrderFold(fun, acc, head);
+}
+
+template <typename Data>
+void List<Data>::Map(MapFunctor fun) const {
+  PreOrderMap(fun, head);
+}
+
+
+template <typename Data>
+void List<Data>::Map(MutableMapFunctor fun) {
+  PreOrderMap(fun, head);
+}
 /* ************************************************************************** */
 
 }

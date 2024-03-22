@@ -87,10 +87,10 @@ public:
   /* ************************************************************************ */
 
   // Copy constructor
-  List(const List&);
+  List(const List<Data>&);
 
   // Move constructor
-  List(List &&) noexcept;
+  List(List<Data> &&) noexcept;
 
   /* ************************************************************************ */
 
@@ -100,16 +100,16 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  List& operator=(const List&);
+  List& operator=(const List<Data>&);
 
   // Move assignment
-  List& operator=(List&&) noexcept;
+  List& operator=(Lis<Data>&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(const List&) const noexcept;
-  bool operator!=(const List&) const noexcept;
+  bool operator==(const List<Data>&) const noexcept;
+  bool operator!=(const List<Data>&) const noexcept;
 
   /* ************************************************************************ */
 
@@ -145,7 +145,7 @@ public:
   const Data& operator[](const ulong) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
   Data& operator[](const ulong) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
 
-  const Dat & Front() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
+  const Data& Front() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
   Data& Front() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
 
   //Back implementato con [] richiederebbe tempo lineare. uso per efficienza il puntatore all'ultimo elemento 

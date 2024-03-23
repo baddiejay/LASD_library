@@ -12,7 +12,7 @@ StackLst<Data>& StackLst<Data>::operator=(const StackLst<Data>& st){
 
 template <typename Data>
 StackLst<Data>& StackLst<Data>::operator=(StackLst<Data>&& st) noexcept{
-    List<Data>::operator=(st);
+    List<Data>::operator=(std::move(st));
     return *this;
 }
 
@@ -23,7 +23,7 @@ inline bool StackLst<Data>::operator==(const StackLst<Data>& st) const noexcept{
 
 template <typename Data>
 inline bool StackLst<Data>::operator!=(const StackLst<Data>& st) const noexcept{
-    return List<Data>::operator==(st);
+    return !(*this == stack);
 }
 
 template <typename Data>
@@ -67,7 +67,7 @@ void StackLst<Data>::Push(const Data& d){
 
 template <typename Data>
 void StackLst<Data>::Push(Data&& d){
-    List<Data>::InsertAtFront(d)
+    List<Data>::InsertAtFront(std::move(d))
 }
 
 /* ************************************************************************** */

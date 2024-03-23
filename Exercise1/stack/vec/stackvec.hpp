@@ -25,26 +25,27 @@ private:
 
 protected:
 
-  using Vector<Data>::size;
   //Points to the first available cell
   unsigned long index = 0;
+  using Vector<Data>::size;
+  using Vector<Data>::elements;
 
 public:
 
   // Default constructor
-  //The stack is empty but the array has already one or more cells allocated in order to avoid to do an expansion on the first push
-  StackVec();
+  //The stack is empty but the array has already two cells allocated in order to avoid to do an expansion on the first push
+  StackVec() : Vector<Data>(2) {}
 
   /* ************************************************************************ */
 
   // Specific constructor
-  StackVec(const MappableContainer<Data>&); // A stack obtained from a MappableContainer
-  StackVec(const MutableMappableContainer<Data>&&) noexcept; // A stack obtained from a MutableMappableContainer
+  StackVec(const MappableContainer<Data>& mc) : Vector<Data>(mc), index(size) {}; // A stack obtained from a MappableContainer
+  StackVec(const MutableMappableContainer<Data>&&) noexcept : Vector<Data>(mc), index(size) {}; // A stack obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
   // Copy constructor
-  StackVec(const StackVec<Data>&);
+  StackVec(const StackVec<Data>& st) : Vector<Data>(st), index(st.index) {};
 
   // Move constructor
   StackVec(StackVec<Data>&&) noexcept;
@@ -52,7 +53,7 @@ public:
   /* ************************************************************************ */
 
   // Destructor
-  ~StackVec() = default;
+  virtual ~StackVec() = default;
 
   /* ************************************************************************ */
 

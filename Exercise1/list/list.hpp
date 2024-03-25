@@ -40,7 +40,6 @@ protected:
     // Specific constructors
     inline Node() = default;
     inline Node(const Data& data) : element(data) {};
-    //Sposto il dato nel nodo senza copiarlo 
     inline Node(Data&&) noexcept;
 
     /* ********************************************************************** */
@@ -141,14 +140,12 @@ public:
   /* ************************************************************************ */
 
   // Specific member functions (inherited from LinearContainer)
-  // Deve scorrere necessariamente la lista, sarà costoso tanto quanto la lontananza dell'elemento dalla lista
   const Data& operator[](const ulong) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
   Data& operator[](const ulong) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
 
   const Data& Front() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
   Data& Front() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
 
-  //Back implementato con [] richiederebbe tempo lineare. uso per efficienza il puntatore all'ultimo elemento 
   const Data& Back() const override; // Override (NonMutable) LinearContainer member (must throw std::length_error when empty)
   Data& Back() override; // Override (Mutable) LinearContainer member (must throw std::length_error when empty)
 

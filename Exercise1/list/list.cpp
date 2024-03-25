@@ -246,8 +246,8 @@ void List<Data>::Clear() noexcept{
     tmp = nullptr;
   }
   
-  delete head;
-  delete tail;
+  //delete head;
+  //delete tail;
 
   head = nullptr;
   tail = nullptr;

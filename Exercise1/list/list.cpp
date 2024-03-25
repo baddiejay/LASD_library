@@ -30,6 +30,7 @@ bool List<Data>::Node::operator==(const Node& node) const noexcept{
   return (element == node.element) && ((next == nullptr && node.next == nullptr) || ((next != nullptr && node.next != nullptr) && (*next = *node.next)));
 }
 
+template <typename Data>
 bool inline List<Data>::Node::operator!=(const Node& node) const noexcept{
   return !(this == node);
 }
@@ -38,16 +39,16 @@ bool inline List<Data>::Node::operator!=(const Node& node) const noexcept{
 
 template <typename Data>
 inline List<Data>::List(const MappableContainer<Data>& mc){
-  container.Map([this] (const Data& newData){
+  mc.Map([this] (const Data& newData){
       InsertAtBack(newData);
-    })
+    });
 }
 
 template <typename Data>
-inline List<Data>::List(MutableMappableContainer<Data>&&) noexcept{
-  container.Map([this] (Data& newData){
+inline List<Data>::List(MutableMappableContainer<Data>&& mmc) noexcept{
+  mmc.Map([this] (Data& newData){
       InsertAtBack(std::move(newData));
-    });;
+    });
 }
 
 //Copy constructor
@@ -170,7 +171,7 @@ void List<Data>::RemoveFromFront(){
     }
   }
   else 
-    throw std::lenght_error("Trying to access an empty list");
+    throw std::length_error("Trying to access an empty list");
   
 }
 
@@ -200,11 +201,11 @@ Data List<Data>::FrontNRemove(){
         return frontData;
   
   */
-  throw std::lenght_error("Trying to access an empty list");
+  throw std::length_error("Trying to access an empty list");
 }
 
 template <typename Data>
-void InsertAtBack(const Data& data){
+void List<Data>::InsertAtBack(const Data& data){
   Node* tmp = new Node(data);
   if(head == nullptr){
     head = tmp;
@@ -219,7 +220,7 @@ void InsertAtBack(const Data& data){
 }
 
 template <typename Data>
-void InsertAtBack(Data&& data) noexcept{
+void List<Data>::InsertAtBack(Data&& data) noexcept{
   Node* tmp = new Node(std::move(data));
   if(head == nullptr){
     head = tmp;
@@ -234,7 +235,7 @@ void InsertAtBack(Data&& data) noexcept{
 }
 
 template <typename Data>
-void List<Data>::Clear(){
+void List<Data>::Clear() noexcept{
   if(size > 0){
     Node * tmp = new Node();
     while(head != nullptr){
@@ -242,6 +243,7 @@ void List<Data>::Clear(){
       head = head -> next;
       delete tmp;
      }
+    tmp = nullptr;
   }
   
   delete head;
@@ -249,7 +251,6 @@ void List<Data>::Clear(){
 
   head = nullptr;
   tail = nullptr;
-  tmp = nullptr;
   size = 0;
 
   /*OR
@@ -267,32 +268,31 @@ void List<Data>::Clear(){
 }
 
 template <typename Data>
-bool List<Data>::Insert(const Data& data) override{
+bool List<Data>::Insert(const Data& data){
   //If the element is already inside I don't add it because I don't want duplicates
-  if (FoldableContainer<Data>::Exists(element)){
+  if (FoldableContainer<Data>::Exists(data)){
     return false;
-
   } else {
-    InsertAtBack(element);
+    InsertAtBack(data);
     return true;
   }
 }
 
 template <typename Data>
-bool List<Data>::Insert(Data&& data) noexcept override{
+bool List<Data>::Insert(Data&& data) noexcept{
   Data tmpData = std::move(data);
     
-    if (FoldableContainer<Data>::Exists(tmpData)) 
+    if (FoldableContainer<Data>::Exists(data)) 
       return false;
     else {
-      InsertAtBack(std::move(tmpData));
+      InsertAtBack(std::move(data));
       return true;
     } 
 }
 
 //Remove one node but keeps the connection with his next
 template <typename Data>
-bool List<Data>::Remove(const Data& data) override{
+bool List<Data>::Remove(const Data& data){
   if (head == nullptr) {
     return false;
   } else if (head->data == data) {
@@ -322,7 +322,7 @@ bool List<Data>::Remove(const Data& data) override{
 }
 
 template <typename Data>
-const Data& List<Data>::operator[](const ulong index) const override{
+const Data& List<Data>::operator[](const ulong index) const{
   if (index < size) {
     Node *temp = head;
 
@@ -336,7 +336,7 @@ const Data& List<Data>::operator[](const ulong index) const override{
 }
 
 template <typename Data>
-Data& List<Data>::operator[](const ulong index) override{
+Data& List<Data>::operator[](const ulong index){
    if (index < size) {
     Node *temp = head;
 
@@ -350,7 +350,7 @@ Data& List<Data>::operator[](const ulong index) override{
 }
 
 template <typename Data>
-const Data& List<Data>::Front() const override{
+const Data& List<Data>::Front() const{
   if(size != 0)
     return head->element;
   
@@ -358,7 +358,7 @@ const Data& List<Data>::Front() const override{
 }
 
 template <typename Data>
-Data& List<Data>::Front() override{
+Data& List<Data>::Front(){
   if(size != 0)
     return head->element;
   
@@ -366,7 +366,7 @@ Data& List<Data>::Front() override{
 }
 
 template <typename Data>
-const Data& List<Data>::Back() const override{
+const Data& List<Data>::Back() const {
   if(size != 0)
     return tail->element;
   
@@ -374,7 +374,7 @@ const Data& List<Data>::Back() const override{
 }
 
 template <typename Data>
-Data& List<Data>::Back() override{
+Data& List<Data>::Back(){
  if(size != 0)
     return tail->element;
   

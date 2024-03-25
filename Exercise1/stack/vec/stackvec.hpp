@@ -40,7 +40,7 @@ public:
 
   // Specific constructor
   StackVec(const MappableContainer<Data>& mc) : Vector<Data>(mc), index(size) {}; // A stack obtained from a MappableContainer
-  StackVec(const MutableMappableContainer<Data>&&) noexcept : Vector<Data>(mc), index(size) {}; // A stack obtained from a MutableMappableContainer
+  StackVec(const MutableMappableContainer<Data>&& mmc) noexcept : Vector<Data>(mmc), index(size) {}; // A stack obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
@@ -105,8 +105,8 @@ protected:
 
   // Auxiliary member functions
 
-  void Expand(unsigned long int) noexcept;
-  void Reduce(unsigned long int) noexcept;
+  void Expand() noexcept;
+  void Reduce() noexcept;
 
 };
 

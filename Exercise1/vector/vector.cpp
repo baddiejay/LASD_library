@@ -21,13 +21,13 @@ Vector<Data>::Vector(const MappableContainer<Data>& mc){
 }
 
 template <typename Data>
-Vector<Data>::Vector(MutableMappableContainer<Data>&& mmc){
+Vector<Data>::Vector(MutableMappableContainer<Data>&& mmc) noexcept{
   //Mappable non ha l'operatore [], posso però usare la map
   size = mmc.Size();
   elements = new Data[size];
   unsigned long i = 0;
   
-  mmc.Map([this, &i] (const Data& data) {elements[i++] = std::move(data)});
+  mmc.Map([this, &i] (const Data& data) {elements[i++] = std::move(data);});
 }
 
 template <typename Data>

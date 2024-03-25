@@ -10,7 +10,7 @@ StackVec<Data>::StackVec(StackVec<Data>&& st) noexcept : Vector<Data>(std::move(
 template <typename Data>
 StackVec<Data>& StackVec<Data>::operator=(const StackVec<Data>& st){
     Vector<Data>::operator=(st);
-    index = st.index
+    index = st.index;
     return *this;
 }
 
@@ -27,15 +27,15 @@ bool StackVec<Data>::operator==(const StackVec<Data>& st) const noexcept{
         return false;
     for(unsigned long i = 0; i < index; i++){
         if(elements[i] != st.elements[i])
-            retunr false;
+            return false;
     }
     
     return true;
 }
 
 template <typename Data>
-inline bool StackVec<Data>::operator!=(const StackVec<Data>& sr) const noexcept{
-    return !(*this == st)
+inline bool StackVec<Data>::operator!=(const StackVec<Data>& st) const noexcept{
+    return !(*this == st);
 }
 
 template <typename Data>
@@ -98,7 +98,7 @@ void StackVec<Data>::Push(Data&& d){
 template <typename Data>
 inline bool StackVec<Data>::Empty() const noexcept{
     //The meaning is that no data is in the stack, not that the array has dimension 0
-    return (index == 0)
+    return (index == 0);
 }
 
 
@@ -110,7 +110,7 @@ inline unsigned long StackVec<Data>::Size() const noexcept{
 
 template <typename Data>
 void StackVec<Data>::Clear(){
-    for(ulong i=stackSize; i>0; i--){
+    for(unsigned long i=index; i>0; i--){
         Pop();
     }
 }

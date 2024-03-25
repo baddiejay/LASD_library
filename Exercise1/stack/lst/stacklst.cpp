@@ -7,7 +7,7 @@ namespace lasd {
 template <typename Data>
 StackLst<Data>& StackLst<Data>::operator=(const StackLst<Data>& st){
     List<Data>::operator=(st);
-    return *this:
+    return *this;
 }
 
 template <typename Data>
@@ -23,7 +23,7 @@ inline bool StackLst<Data>::operator==(const StackLst<Data>& st) const noexcept{
 
 template <typename Data>
 inline bool StackLst<Data>::operator!=(const StackLst<Data>& st) const noexcept{
-    return !(*this == stack);
+    return !(*this == st);
 }
 
 template <typename Data>
@@ -32,16 +32,16 @@ const Data& StackLst<Data>::Top() const{
         return List<Data>::Front();
     }
 
-    throw std::lenght_error("Trying to access the top of an empty stack")
+    throw std::length_error("Trying to access the top of an empty stack");
 }
 
 template <typename Data>
-StackLst<Data>::Data& Top(){
+Data& StackLst<Data>::Top(){
     if(List<Data>::size != 0){
         return List<Data>::Front();
     }
 
-    throw std::lenght_error("Trying to access the top of an empty stack")
+    throw std::length_error("Trying to access the top of an empty stack");
 }
 
 template <typename Data>
@@ -49,7 +49,7 @@ void StackLst<Data>::Pop(){
     if(List<Data>::size != 0)
         List<Data>::RemoveFromFront();
 
-    throw std::lenght_error("Trying to pop from an empty stack")
+    throw std::length_error("Trying to pop from an empty stack");
 }
 
 template <typename Data>
@@ -57,17 +57,17 @@ Data StackLst<Data>::TopNPop(){
     if(List<Data>::size != 0)
         return List<Data>::FrontNRemove();
 
-    throw std::lenght_error("Trying to pop from an empty stack")
+    throw std::length_error("Trying to pop from an empty stack");
 }
 
 template <typename Data>
 void StackLst<Data>::Push(const Data& d){
-    List<Data>::InsertAtFront(d)
+    List<Data>::InsertAtFront(d);
 }
 
 template <typename Data>
 void StackLst<Data>::Push(Data&& d){
-    List<Data>::InsertAtFront(std::move(d))
+    List<Data>::InsertAtFront(std::move(d));
 }
 
 /* ************************************************************************** */

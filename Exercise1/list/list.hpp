@@ -121,7 +121,7 @@ public:
   Data FrontNRemove(); // (must throw std::length_error when empty)
 
   //Oltre al puntatore alla testa ho il puntatore alla coda per fare queste due cose
-  void InsertAtBack(const Data&) noexcept; // Copy of the value
+  void InsertAtBack(const Data&); // Copy of the value
   void InsertAtBack(Data&&) noexcept; // Move of the value
 
   /* ************************************************************************ */

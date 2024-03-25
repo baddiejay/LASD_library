@@ -50,7 +50,6 @@ public:
   virtual const Data& operator[](const unsigned long) const = 0; // (non-mutable version; concrete function must throw std::out_of_range when out of range)
   virtual Data& operator[](const unsigned long) = 0; // (mutable version; concrete function must throw std::out_of_range when out of range)
 
-  //chiamo l'accesso random a size-1 e 0
   virtual inline const Data& Front() const; // (non-mutable version; concrete function must throw std::length_error when empty)
   virtual inline Data& Front(); // (mutable version; concrete function must throw std::length_error when empty)
 
@@ -63,20 +62,15 @@ public:
 
   using typename FoldableContainer<Data>::FoldFunctor;
 
-  //Se so fare la fold in un determinato ordine, so fare anche la fold generica
   virtual inline void Fold(FoldFunctor, void*) const override; // Override FoldableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from PreOrderFoldableContainer)
-
-  //for che chiama ogni volta la FoldFunctor su operator[] di i
-  //su ogni elemento chiamo la funzione con il puntatore a funzione
   virtual inline void PreOrderFold(FoldFunctor, void*) const override; // Override PreOrderFoldableContainer member
 
   /* ************************************************************************ */
 
-  //for che chiama ogni volta la FoldFunctor su operator[] di i dalla size a 0
   // Specific member function (inherited from PostOrderFoldableContainer)
 
   virtual inline void PostOrderFold(FoldFunctor, void*) const override; // Override PostOrderFoldableContainer member
@@ -86,25 +80,23 @@ public:
   // Specific member function (inherited from MappableContainer)
 
   using typename MappableContainer<Data>::MapFunctor;
-  // Chiama PreOrderMap
+  
   virtual inline void Map(MapFunctor) const override; // Override MappableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from PreOrderMappableContainer)
-  //For chiamo Map functor su operator[](i)
+
   virtual inline void PreOrderMap(MapFunctor) const override; // Override PreOrderMappableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from PostOrderMappableContainer)
-  //Uguale a PreOrderMap ma partendo da size
   virtual inline void PostOrderMap(MapFunctor) const override; // Override PostOrderMappableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from MutableMappableContainer)
-  //Il compilatore non trovano il const chiamerà direttamente la versione di mutable
   using typename MutableMappableContainer<Data>::MutableMapFunctor;
 
   virtual inline void Map(MutableMapFunctor) override; // Override MutableMappableContainer member

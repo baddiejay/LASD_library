@@ -9,7 +9,7 @@ namespace lasd {
 
 template <typename Data>
 inline void MappableContainer<Data>::Fold(FoldFunctor fun, void* acc) const {
-  //La map riceve in ingresso la funzione lambda che invoca fun sull'elemento d
+  //The map receives as input the lambda function that invokes fun on the d element
   Map([fun, acc](const Data& d) {fun(d,acc);});
 };
 
@@ -78,7 +78,7 @@ inline void BreadthFoldableContainer<Data>::BreadthFold(FoldFunctor fun, void* a
   BreadthMap([fun, acc](const Data& d) {fun(d,acc);});
 }
 
-//-------------------------- MUTABLE SENZA CONST
+//-------------------------- MUTABLE
 template <typename Data>
 inline void MutablePreOrderMappableContainer<Data>::Map(MutableMapFunctor fun) {
   PreOrderMap(fun);

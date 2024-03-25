@@ -118,7 +118,7 @@ public:
 
   using typename FoldableContainer<Data>::FoldFunctor;
 
-  //Posso commentare, verrà chiamato quello della classe Mappable da cui eredito?
+  //I can comment, the one from the Mappable class from which I inherit will be called
   //virtual void Fold(FoldFunctor, void*) const override; // Override FoldableContainer member
 
   /* ************************************************************************ */
@@ -182,7 +182,8 @@ public:
   // Specific member function (inherited from FoldableContainer)
 
   using typename FoldableContainer<Data>::FoldFunctor;
-  //Posso commentare, verrà chiamato quello della classe Mappable base
+
+  //I can comment, the one from the Mappable class from which I inherit will be called
   //virtual void Fold(FoldFunctor, void*) const override; // Override FoldableContainer member
 
   /* ************************************************************************ */
@@ -246,7 +247,8 @@ public:
   // Specific member function (inherited from FoldableContainer)
 
   using typename FoldableContainer<Data>::FoldFunctor;
-  //Posso commentare, verrà chiamato quello della classe Mappable base
+
+  //I can comment, the one from the Mappable class from which I inherit will be called
   //virtual void Fold(FoldFunctor, void*) const override ; // Override FoldableContainer member
 
   /* ************************************************************************ */
@@ -310,7 +312,8 @@ public:
   // Specific member function (inherited from FoldableContainer)
 
   using typename FoldableContainer<Data>::FoldFunctor;
-  //Posso commentare, verrà chiamato quello della classe Mappable base
+
+  //I can comment, the one from the Mappable class from which I inherit will be called
   //virtual void Fold(FoldFunctor, void*) const override; // Override FoldableContainer member
 
   /* ************************************************************************ */

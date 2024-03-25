@@ -293,7 +293,7 @@ bool List<Data>::Insert(Data&& data) noexcept{
 //Remove one node but keeps the connection with his next
 template <typename Data>
 bool List<Data>::Remove(const Data& data){
-  if (head == nullptr) {
+  if (size == 0) {
     return false;
   } else if (head->data == data) {
     RemoveFromFront();

@@ -122,7 +122,7 @@ void StackVec<Data>::Expand() noexcept{
 
 template <typename Data>
 void StackVec<Data>::Reduce() noexcept{
-    //I'm going to reduce if one quarter only is occupied so..
+    //The new dimension is 3/4 of the actual size
     Vector<Data>::Resize((size*3) / 4);
 }
 /* ************************************************************************** */

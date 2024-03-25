@@ -76,7 +76,6 @@ public:
   //Accessing the cell with index-1 from the the pointer to the available cell
   const Data& Top() const override; // Override Stack member (non-mutable version; must throw std::length_error when empty)
   Data& Top() override; // Override Stack member (non-mutable version; must throw std::length_error when empty)
-  //If I'm using only a small fraction of my space then I have to shrink my vector
   void Pop() override; // Override Stack member (must throw std::length_error when empty)
   Data TopNPop() override; // Override Stack member (must throw std::length_error when empty)
   //Insert in the place con the index and then incrementing the index 
@@ -89,7 +88,6 @@ public:
 
   // Specific member functions (inherited from Container)
 
-  //The meaning is that no data is in the stack, not that the array has dimension 0
   inline bool Empty() const noexcept override; // Override Container member
 
   //Size doesn't correspond to the allocated memory cells but to how many elements are in the stack
@@ -101,7 +99,7 @@ public:
 
   //In this case I don't want to empty all the array making it of dimension 0, INSTEAD
   //I want to leave some space in order to be ablre to do some pushes without resizing the vector
-  vodi Clear() override; // Override ClearableContainer member
+  void Clear() override; // Override ClearableContainer member
 
 protected:
 

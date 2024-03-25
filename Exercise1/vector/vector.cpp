@@ -5,14 +5,15 @@ namespace lasd {
 
 template <typename Data>
 Vector<Data>::Vector(const unsigned long newsize){
-  //Inizializzo gli elementi a vuoto con le parentesi graffe
+  //Initialising the vector with empty elements with curly brackets
   elements = new Data[newsize] {};
   size = newsize;
 }
 
 template <typename Data>
 Vector<Data>::Vector(const MappableContainer<Data>& mc){
-  //Mappable non ha l'operatore [], posso però usare la map
+  //Scan the container and populate my array cell by cell
+  //MappableContainer doesn't have operator[], but I can use the map function
   size = mc.Size();
   elements = new Data[size];
   unsigned long i = 0;
@@ -22,7 +23,7 @@ Vector<Data>::Vector(const MappableContainer<Data>& mc){
 
 template <typename Data>
 Vector<Data>::Vector(MutableMappableContainer<Data>&& mmc) noexcept{
-  //Mappable non ha l'operatore [], posso però usare la map
+  //Since it is mutable I can modify it then better build by move.
   size = mmc.Size();
   elements = new Data[size];
   unsigned long i = 0;
@@ -33,14 +34,16 @@ Vector<Data>::Vector(MutableMappableContainer<Data>&& mmc) noexcept{
 template <typename Data>
 Vector<Data>::Vector(const Vector<Data>& v){
   elements = new Vector[v.size];
-  //primo elemento, ultimo elemento e dove lo devo mettere. Copia tanto più costosa quanto è grande il contenitore. Lineare sulla dimensione
+
+  //First element, last element and where to put it. The more expensive the copy, the larger the container. Linear on size
   std::copy(v.elements,v.elements + v.size, elements);
   size = v.size;
 }
 
 template <typename Data>
 Vector<Data>::Vector(Vector<Data>&& v) noexcept{
-  //scambio il valore del primo con quello contenuto nel secondo. Due operazioni a tempo costante indipendenti dalla dimensione del container
+  //exchange the value of the former with the value contained in the latter. Two constant-time operations independent of container size. 
+  //Having pointer pointing to the beginning and the size I can access the whole structure with pointer arithmetic
   std::swap(elements,v.elements);
   std::swap(size,v.size);
 }
@@ -52,11 +55,11 @@ Vector<Data>::~Vector(){
 
 template <typename Data>
 Vector<Data>& Vector<Data>::operator=(const Vector<Data>& v){
-  //Copio in un contenitore vector già esistente il contenuto di un altro
+  //Creating a new Vector using the copy constructor
   Vector<Data>* tmp = new Vector<Data>(v);
-  //Scambio dei dati tra il nuovo vettore e me stesso
+  //Swapping data between this object and my new vector
   std::swap(*tmp,*this);
-  //Dopo lo scambio contiene i dati presenti in v
+  //After the exchange this contains the data in v so I can delete tmp and return this
   delete tmp;
   return *this;
 }
@@ -86,25 +89,24 @@ bool inline Vector<Data>::operator!=(const Vector<Data>& v) const noexcept{
 
 template <typename Data>
 void Vector<Data>::Clear() noexcept{
-  //Cancella il contenuto di elements
+  //Deleting what's inside the vector
   delete[] elements;
-  //Setta il puntatore a null
+  //Setting the pointer to null
   elements = nullptr;
-  //imposta la size a 0
   size = 0;
 }
 
 template <typename Data>
 void Vector<Data>::Resize(const unsigned long new_dim){
+  //Allocate new vector, make the copy and deallocate the old one or even decrease it given the new vector size I want
   if(new_dim == 0)
     Clear();
   else if(size != new_dim){
     Data* tmp = new Data[new_dim]{};
-    //In questo nuovo vettore devo copiare tutti gli elementi del precedente. Se sto accorciando il vettore mi devo fermare fino a che ho spazio
+    //In this new vector I have to copy all the elements of the previous one. If I am shortening the vector I have to stop until I have space
     unsigned long limit = (size < new_dim) ? size : new_dim;
     for(unsigned long i = 0; i < limit; i++)
       std::swap(tmp[i],elements[i]);
-    //swap dei puntatori così che tmp diventi il mio elemets
     std::swap(tmp,elements); 
     size = new_dim;
     delete[] tmp;
@@ -182,16 +184,17 @@ unsigned long Vector<Data>::partition(unsigned long p, unsigned long r) noexcept
   unsigned long j = r+1;
   
   do{
-    //Ripeto fino a che non trovo un elemento che viola la mia condizione. Ripeto fino a che non trovo un elemento più piccolo del pivot
+    //Repeat until I find an element that violates my condition. I repeat until I find an element smaller than the pivot
     do{
       j--;
-    } while (pivot < elements[i]);  //Appena trovo un elements più piccolo del pivot passo all'altro indice
+    } while (pivot < elements[i]);  //As soon as I find an element smaller than the pivot I switch to the other index
     do{
       j--;
-    } while (pivot > elements[i]); //Appena trovo un elements più grande del pivot passo all'altro indice
+    } while (pivot > elements[i]); //As soon as I find an element larger than the pivot I switch to the other index
     if(i < j){
       std::swap(elements[i],elements[j]);    
     }
+  //When i > j the loops end since the index are crossed and no more elements remains
   } while (i < j);
   
   return j;

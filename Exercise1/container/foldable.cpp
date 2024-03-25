@@ -7,11 +7,14 @@ namespace lasd {
 
 /* ************************************************************************** */
 
+//Even if the fold is not implemented, the existis works based on the fold that someone else will implement for me
 template <typename Data>
 inline bool FoldableContainer<Data>::Exists(const Data& d) const noexcept{
   bool exists = false;
-  //Attenzione qua a |= e non =
-  //La fold prende un puntatore void e restituisce un void quindi &exists è automaticamente convertito a void
+  //FOLD takes as a parameter a function of tipe FoldFunctor and a void* accumulator (&exists).
+  //The FoldFunctor function returns void and has 2 parameters:
+  // 1) of type Data&, 2) a pointer of type void*
+  //I'm using the OR assignment to check for each element d if it is equal to a value val I already have in my structure
   Fold([d](const Data& val, void* acc) {*((bool*)acc) |= (d == val);}, &exists);
   return exists;
 }

@@ -24,7 +24,6 @@ bool inline LinearContainer<Data>::operator!=(const LinearContainer<Data>& lc) c
    return !(*this == lc);
 }
 
-//Versione non mutable
 template <typename Data>
 inline const Data& LinearContainer<Data>::Front() const{
    if(size != 0)
@@ -33,7 +32,6 @@ inline const Data& LinearContainer<Data>::Front() const{
    	throw std::length_error("Trying to access to an empty container");
 }
 
-//Versione mutable
 template <typename Data>
 inline Data& LinearContainer<Data>::Front(){
    if(size != 0)
@@ -42,7 +40,7 @@ inline Data& LinearContainer<Data>::Front(){
    	throw std::length_error("Trying to access to an empty container");
 }
 
-//Versione non mutable
+//Non mutable version which is const and returns a const reference so nothing can be modified
 template <typename Data>
 inline const Data& LinearContainer<Data>::Back() const{
    if(size != 0)
@@ -51,7 +49,7 @@ inline const Data& LinearContainer<Data>::Back() const{
    	throw std::length_error("Trying to access to an empty container");
 }
 
-//Versione mutable
+//Mutable version
 template <typename Data>
 inline Data& LinearContainer<Data>::Back(){
    if(size != 0)
@@ -60,6 +58,7 @@ inline Data& LinearContainer<Data>::Back(){
    	throw std::length_error("Trying to access to an empty container");
 }
 
+//Since I know how to do the Fold in one order, I can also do the generic Fold calling the one that I know how to do
 template <typename Data>
 inline void LinearContainer<Data>::Fold(FoldFunctor fun, void* acc) const{
   PreOrderFold(fun, acc);
@@ -67,6 +66,8 @@ inline void LinearContainer<Data>::Fold(FoldFunctor fun, void* acc) const{
 
 template <typename Data>
 inline void LinearContainer<Data>::PreOrderFold(FoldFunctor fun, void* acc) const{
+  //On each element of my LinearContainer, I call the function with the function pointer FoldFunctor fun which takes a 
+  //Data parameter (the i-th element access with operator[]) and stores the result in the acc pointer
   for(unsigned long i = 0; i < size; i++){
     fun(operator[](i), acc);
   }
@@ -78,7 +79,7 @@ inline void LinearContainer<Data>::PostOrderFold(FoldFunctor fun, void* acc) con
 
   while(i > 0)
     fun(operator[](--i), acc);
-  //L'indice è da 0 a n-1 dunque decremento prima
+  //The index is from 0 to n-1 so decrease first
 }
 
 template <typename Data>
@@ -99,7 +100,7 @@ inline void LinearContainer<Data>::PostOrderMap(MapFunctor fun) const{
 
   while(i > 0)
     fun(operator[](--i));
-  //L'indice è da 0 a n-1 dunque decremento prima
+  //The index is from 0 to n-1 so decrease first
 }
 
 template <typename Data>
@@ -120,7 +121,7 @@ inline void LinearContainer<Data>::PostOrderMap(MutableMapFunctor fun){
 
   while(i > 0)
     fun(operator[](--i));
-  //L'indice è da 0 a n-1 dunque decremento prima
+  //The index is from 0 to n-1 so decrease first
 }
 
 template <typename Data>

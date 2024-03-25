@@ -321,6 +321,7 @@ bool List<Data>::Remove(const Data& data){
   }
 }
 
+// Must necessarily scroll through the list, it will be just as costly as moving the element away from the list
 template <typename Data>
 const Data& List<Data>::operator[](const ulong index) const{
   if (index < size) {
@@ -365,6 +366,7 @@ Data& List<Data>::Front(){
   throw std::length_error("Acces to an empty List");
 }
 
+//Back using operator[] would require a time linear to the input. To be more efficent I use the tail pointer 
 template <typename Data>
 const Data& List<Data>::Back() const {
   if(size != 0)

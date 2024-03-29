@@ -33,7 +33,7 @@ Vector<Data>::Vector(MutableMappableContainer<Data>&& mmc) noexcept{
 
 template <typename Data>
 Vector<Data>::Vector(const Vector<Data>& v){
-  elements = new Vector[v.size];
+  elements = new Data[v.size];
 
   //First element, last element and where to put it. The more expensive the copy, the larger the container. Linear on size
   std::copy(v.elements,v.elements + v.size, elements);

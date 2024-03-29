@@ -122,8 +122,8 @@ void StackVec<Data>::Expand() noexcept{
 
 template <typename Data>
 void StackVec<Data>::Reduce() noexcept{
-    //The new dimension is 3/4 of the actual size
-    Vector<Data>::Resize((size*3) / 4);
+    //The new dimension is 3/4 of the actual size (size*3) / 4)
+    Vector<Data>::Resize(size/2);
 }
 /* ************************************************************************** */
 

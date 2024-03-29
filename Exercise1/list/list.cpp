@@ -244,6 +244,7 @@ void List<Data>::Clear() noexcept{
       delete tmp;
      }
     tmp = nullptr;
+    size = 0;
   }
   
   //delete head;
@@ -251,7 +252,6 @@ void List<Data>::Clear() noexcept{
 
   head = nullptr;
   tail = nullptr;
-  size = 0;
 
   /*OR
   ulong currSize = Size();

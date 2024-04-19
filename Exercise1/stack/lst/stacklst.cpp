@@ -31,8 +31,8 @@ const Data& StackLst<Data>::Top() const{
     if(List<Data>::size != 0){
         return List<Data>::Front();
     }
-
     throw std::length_error("Trying to access the top of an empty stack");
+
 }
 
 template <typename Data>
@@ -40,7 +40,6 @@ Data& StackLst<Data>::Top(){
     if(List<Data>::size != 0){
         return List<Data>::Front();
     }
-
     throw std::length_error("Trying to access the top of an empty stack");
 }
 
@@ -48,15 +47,14 @@ template <typename Data>
 void StackLst<Data>::Pop(){
     if(List<Data>::size != 0)
         List<Data>::RemoveFromFront();
-
-    throw std::length_error("Trying to pop from an empty stack");
+    else
+    	throw std::length_error("Trying to pop from an empty stack");
 }
 
 template <typename Data>
 Data StackLst<Data>::TopNPop(){
     if(List<Data>::size != 0)
         return List<Data>::FrontNRemove();
-
     throw std::length_error("Trying to pop from an empty stack");
 }
 
@@ -66,7 +64,7 @@ void StackLst<Data>::Push(const Data& d){
 }
 
 template <typename Data>
-void StackLst<Data>::Push(Data&& d){
+void StackLst<Data>::Push(Data&& d) noexcept{
     List<Data>::InsertAtFront(std::move(d));
 }
 

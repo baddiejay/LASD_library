@@ -2,6 +2,7 @@
 namespace lasd {
 
 /* ************************************************************************** */
+
 template <typename Data>
 StackVec<Data>::StackVec(StackVec<Data>&& st) noexcept : Vector<Data>(std::move(st)){
     std::swap(index, st.index);
@@ -25,11 +26,13 @@ template <typename Data>
 bool StackVec<Data>::operator==(const StackVec<Data>& st) const noexcept{
     if(index != st.index)
         return false;
+
     for(unsigned long i = 0; i < index; i++){
-        if(elements[i] != st.elements[i])
+        if(elements[i] != st.elements[i]){
             return false;
+        }
     }
-    
+
     return true;
 }
 
@@ -40,28 +43,30 @@ inline bool StackVec<Data>::operator!=(const StackVec<Data>& st) const noexcept{
 
 template <typename Data>
 const Data& StackVec<Data>::Top() const{
-    if(index != 0)
+    if(index != 0){
         return elements[index - 1];
-    
+    }
     throw std::length_error("Trying to access the top on an empty stack");
 }
+
 template <typename Data>
 Data& StackVec<Data>::Top(){
-    if(index != 0)
+    if(index != 0){
         return elements[index - 1];
-    
+    }
     throw std::length_error("Trying to access the top on an empty stack");
 }
 
 template <typename Data>
 void StackVec<Data>::Pop(){
-    //I don't need to delete the value, it will be overwritten with the next push on the same index
+//I don't need to delete the value, it will be overwritten with the next push on the same index
     if(index != 0){
         index--;
         //If I'm using only a small fraction of my space then I have to shrink my vector.
         //I do it if the space occupied is less than one quarter of the available space
-        if(index < size/4)
+        if(index == size/4){
             Reduce();
+        }
     } else
         throw std::length_error("Trying to access the top on an empty stack");
 }
@@ -79,28 +84,25 @@ Data StackVec<Data>::TopNPop(){
 template <typename Data>
 void StackVec<Data>::Push(const Data& d){
     //Index points to the first available cell
-    if(--index == size){
+    if(index == size){
         Expand();
     }
-
     elements[index++] = d;
 }
 
 template <typename Data>
-void StackVec<Data>::Push(Data&& d){
-    if(--index == size){
+void StackVec<Data>::Push(Data&& d) noexcept{
+    if(index == size){
         Expand();
     }
-
-    elements[index++] = d;
+    elements[index++] = std::move(d);
 }
 
 template <typename Data>
 inline bool StackVec<Data>::Empty() const noexcept{
-    //The meaning is that no data is in the stack, not that the array has dimension 0
+    //The meaning is that no data is in the stack because the first available cell is 0, not that the array has dimension 0
     return (index == 0);
 }
-
 
 template <typename Data>
 inline unsigned long StackVec<Data>::Size() const noexcept{
@@ -109,10 +111,9 @@ inline unsigned long StackVec<Data>::Size() const noexcept{
 }
 
 template <typename Data>
-void StackVec<Data>::Clear(){
-    for(unsigned long i=index; i>0; i--){
-        Pop();
-    }
+void StackVec<Data>::Clear() noexcept{
+    index = 0;
+    Vector<Data>::Resize(2);
 }
 
 template <typename Data>
@@ -125,6 +126,7 @@ void StackVec<Data>::Reduce() noexcept{
     //The new dimension is 3/4 of the actual size (size*3) / 4)
     Vector<Data>::Resize(size/2);
 }
+
 /* ************************************************************************** */
 
 }

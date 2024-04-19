@@ -14,11 +14,11 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
+
 class StackVec : virtual public Stack<Data>,
                  virtual protected Vector<Data>{
                   // Must extend Stack<Data>,
                   //             Vector<Data>
-
 private:
 
   // ...
@@ -27,6 +27,7 @@ protected:
 
   //Points to the first available cell
   unsigned long index = 0;
+
   using Vector<Data>::size;
   using Vector<Data>::elements;
 
@@ -39,8 +40,9 @@ public:
   /* ************************************************************************ */
 
   // Specific constructor
-  StackVec(const MappableContainer<Data>& mc) : Vector<Data>(mc), index(size) {}; // A stack obtained from a MappableContainer
-  StackVec(const MutableMappableContainer<Data>&& mmc) noexcept : Vector<Data>(mmc), index(size) {}; // A stack obtained from a MutableMappableContainer
+
+  StackVec(const TraversableContainer<Data>& mc) : Vector<Data>(mc), index(size) {}; // A stack obtained from a MappableContainer
+  StackVec(const MappableContainer<Data>&& mmc) noexcept : Vector<Data>(std::move(mmc)), index(size) {}; // A stack obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
@@ -72,7 +74,6 @@ public:
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Stack)
-
   //Accessing the cell with index-1 from the the pointer to the available cell
   const Data& Top() const override; // Override Stack member (non-mutable version; must throw std::length_error when empty)
   Data& Top() override; // Override Stack member (non-mutable version; must throw std::length_error when empty)
@@ -80,9 +81,8 @@ public:
   Data TopNPop() override; // Override Stack member (must throw std::length_error when empty)
   //Insert in the place con the index and then incrementing the index 
   //If the available space is not enough we have to extend the vector before inserting
-
   void Push(const Data&) override; // Override Stack member (copy of the value)
-  void Push(Data&&) override; // Override Stack member (move of the value)
+  void Push(Data&&) noexcept override; // Override Stack member (move of the value)
 
   /* ************************************************************************ */
 
@@ -91,6 +91,7 @@ public:
   inline bool Empty() const noexcept override; // Override Container member
 
   //Size doesn't correspond to the allocated memory cells but to how many elements are in the stack
+
   inline unsigned long Size() const noexcept override; // Override Container member
 
   /* ************************************************************************ */
@@ -99,7 +100,7 @@ public:
 
   //In this case I don't want to empty all the array making it of dimension 0, INSTEAD
   //I want to leave some space in order to be ablre to do some pushes without resizing the vector
-  void Clear() override; // Override ClearableContainer member
+  void Clear() noexcept override; // Override ClearableContainer member
 
 protected:
 

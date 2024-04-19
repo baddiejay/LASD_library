@@ -14,6 +14,7 @@ namespace lasd {
 
 template <typename Data>
 class TestableContainer : virtual public Container {
+  // Must extend Container
 
 private:
 
@@ -45,7 +46,6 @@ public:
   /* ************************************************************************ */
 
   // Specific member function
-
   virtual bool Exists(const Data&) const noexcept = 0; // (concrete function should not throw exceptions)
 
 };

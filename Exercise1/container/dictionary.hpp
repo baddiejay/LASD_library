@@ -4,7 +4,6 @@
 
 /* ************************************************************************** */
 
-#include "testable.hpp"
 #include "mappable.hpp"
 
 /* ************************************************************************** */
@@ -14,8 +13,8 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class DictionaryContainer: virtual public TestableContainer<Data> {
-                            // Must extend TestableContainer<Data>
+class DictionaryContainer : virtual public TestableContainer<Data>{
+  // Must extend TestableContainer<Data>
 
 private:
 
@@ -51,14 +50,13 @@ public:
   virtual bool Insert(Data&&) = 0; // Move of the value
   virtual bool Remove(const Data&) = 0;
 
-  virtual bool InsertAll(const MappableContainer<Data> &); // Copy of the value; From MappableContainer; True if all are inserted
-  virtual bool InsertAll(MutableMappableContainer<Data> &&); // Move of the value; From MutableMappableContainer; True if all are inserted
-  virtual bool RemoveAll(const MappableContainer<Data> &); // From MappableContainer; True if all are removed
+  virtual bool InsertAll(const TraversableContainer<Data> &); // Copy of the value; From MappableContainer; True if all are inserted
+  virtual bool InsertAll(MappableContainer<Data> &&); // Move of the value; From MutableMappableContainer; True if all are inserted
+  virtual bool RemoveAll(const TraversableContainer<Data> &); // From MappableContainer; True if all are removed
 
-  virtual bool InsertSome(const MappableContainer<Data> &); // Copy of the value; From MappableContainer; True if some is inserted
-  virtual bool InsertSome(MutableMappableContainer<Data> &&); // Move of the value; From MutableMappableContainer; True if some is inserted
-  virtual bool RemoveSome(const MappableContainer<Data> &); // From MappableContainer; True if some is removed
-
+  virtual bool InsertSome(const TraversableContainer<Data> &); // Copy of the value; From MappableContainer; True if some is inserted
+  virtual bool InsertSome(MappableContainer<Data> &&); // Move of the value; From MutableMappableContainer; True if some is inserted
+  virtual bool RemoveSome(const TraversableContainer<Data> &); // From MappableContainer; True if some is removed
 };
 
 /* ************************************************************************** */

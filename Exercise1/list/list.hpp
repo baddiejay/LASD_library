@@ -5,8 +5,8 @@
 /* ************************************************************************** */
 
 #include "../container/container.hpp"
-#include "../container/dictionary.hpp"
 #include "../container/linear.hpp"
+#include "../container/dictionary.hpp"
 
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ namespace lasd {
 
 template <typename Data>
 class List : virtual public ClearableContainer,
-	           virtual public DictionaryContainer<Data>,
-	           virtual public LinearContainer<Data>{
-              // Must extend ClearableContainer,
-              //             DictionaryContainer<Data>,
-              //             LinearContainer<Data>
+            virtual public LinearContainer<Data>,
+            virtual public DictionaryContainer<Data>{
+  // Must extend ClearableContainer,
+  //             LinearContainer<Data>,
+  //             DictionaryContainer<Data>
 
 private:
 
@@ -45,7 +45,7 @@ protected:
     /* ********************************************************************** */
 
     // Copy constructor
-    inline Node(const Node&);
+    inline Node(const Node& nod);
 
     // Move constructor
     inline Node(Node&&) noexcept;
@@ -53,19 +53,15 @@ protected:
     /* ********************************************************************** */
 
     // Destructor
-    virtual inline ~Node() = default;
+    virtual ~Node();
 
     /* ********************************************************************** */
 
     // Comparison operators
     bool operator==(const Node&) const noexcept;
     bool inline operator!=(const Node&) const noexcept;
-    
+
     /* ********************************************************************** */
-
-    // Specific member functions
-
-    // ...
 
   };
 
@@ -75,21 +71,21 @@ protected:
 public:
 
   // Default constructor
-  inline List() = default;
+  List() = default;
 
   /* ************************************************************************ */
 
   // Specific constructor
-  inline List(const MappableContainer<Data>&); // A list obtained from a MappableContainer
-  inline List(MutableMappableContainer<Data>&&) noexcept; // A list obtained from a MutableMappableContainer
+  List(const TraversableContainer<Data> &); // A list obtained from a TraversableContainer
+  List(MappableContainer<Data> &&); // A list obtained from a MappableContainer
 
   /* ************************************************************************ */
 
   // Copy constructor
-  List(const List<Data>&);
+  List(const List&);
 
   // Move constructor
-  List(List<Data> &&) noexcept;
+  List(List &&) noexcept;
 
   /* ************************************************************************ */
 
@@ -99,47 +95,47 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  List& operator=(const List<Data>&);
+  List& operator=(const List&);
 
   // Move assignment
-  List& operator=(List<Data>&&) noexcept;
+  List& operator=(List&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(const List<Data>&) const noexcept;
-  bool operator!=(const List<Data>&) const noexcept;
+  inline bool operator==(const List&) const noexcept;
+  inline bool operator!=(const List&) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions
 
-  void InsertAtFront(const Data&) noexcept; // Copy of the value
-  void InsertAtFront(Data&&) noexcept; // Move of the value
+  void InsertAtFront(const Data&); // Copy of the value
+  void InsertAtFront(Data&&); // Move of the value
   void RemoveFromFront(); // (must throw std::length_error when empty)
   Data FrontNRemove(); // (must throw std::length_error when empty)
 
-  //Oltre al puntatore alla testa ho il puntatore alla coda per fare queste due cose
   void InsertAtBack(const Data&); // Copy of the value
-  void InsertAtBack(Data&&) noexcept; // Move of the value
+  void InsertAtBack(Data&&); // Move of the value
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from ClearableContainer)
 
-  void Clear() noexcept override; // Override ClearableContainer member
+  void Clear() override; // Override ClearableContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from DictionaryContainer)
 
   bool Insert(const Data&) override; // Copy of the value
-  bool Insert(Data&&) noexcept override; // Move of the value
+  bool Insert(Data&&) override; // Move of the value
   bool Remove(const Data&) override;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from LinearContainer)
+
   const Data& operator[](const ulong) const override; // Override (NonMutable) LinearContainer member (must throw std::out_of_range when out of range)
   Data& operator[](const ulong) override; // Override (Mutable) LinearContainer member (must throw std::out_of_range when out of range)
 
@@ -151,92 +147,51 @@ public:
 
   /* ************************************************************************ */
 
-  // Specific member function (inherited from FoldableContainer)
+  // Specific member function (inherited from TraversableContainer)
 
-  using typename FoldableContainer<Data>::FoldFunctor;
+  using typename TraversableContainer<Data>::TraverseFun;
 
-  void Fold(FoldFunctor, void*) const override; // Override FoldableContainer member
-
-  /* ************************************************************************ */
-
-  // Specific member function (inherited from PreOrderFoldableContainer)
-
-  void PreOrderFold(FoldFunctor, void*) const override; // Override PreOrderFoldableContainer member
+  void Traverse(TraverseFun) const override; // Override TraversableContainer member
 
   /* ************************************************************************ */
 
-  // Specific member function (inherited from PostOrderFoldableContainer)
+  // Specific member function (inherited from PreOrderTraversableContainer)
 
-  void PostOrderFold(FoldFunctor, void*) const override; // Override PostOrderFoldableContainer member
+  void PreOrderTraverse(TraverseFun) const override; // Override PreOrderTraversableContainer member
+
+  /* ************************************************************************ */
+
+  // Specific member function (inherited from PostOrderTraversableContainer)
+
+  void PostOrderTraverse(TraverseFun) const override; // Override PostOrderTraversableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from MappableContainer)
 
-  using typename MappableContainer<Data>::MapFunctor;
+  using typename MappableContainer<Data>::MapFun;
 
-  void Map(MapFunctor) const override; // Override MappableContainer member
+  void Map(MapFun) override; // Override MappableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from PreOrderMappableContainer)
 
-  void PreOrderMap(MapFunctor) const override; // Override PreOrderMappableContainer member
+  void PreOrderMap(MapFun) override; // Override PreOrderMappableContainer member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from PostOrderMappableContainer)
 
-  void PostOrderMap(MapFunctor) const override; // Override PostOrderMappableContainer member
-
-  /* ************************************************************************ */
-
-  // Specific member function (inherited from MutableMappableContainer)
-
-  using typename MutableMappableContainer<Data>::MutableMapFunctor;
-
-  void Map(MutableMapFunctor) override; // Override MutableMappableContainer member
-
-  /* ************************************************************************ */
-
-  // Specific member function (inherited from MutablePreOrderMappableContainer)
-
-  void PreOrderMap(MutableMapFunctor) override; // Override MutablePreOrderMappableContainer member
-
-  /* ************************************************************************ */
-
-  // Specific member function (inherited from MutablePostOrderMappableContainer)
-
-  void PostOrderMap(MutableMapFunctor) override; // Override MutablePostOrderMappableContainer member
+  void PostOrderMap(MapFun) override; // Override PostOrderMappableContainer member
 
 protected:
 
-  // Auxiliary member functions (for PreOrderFoldableContainer & PostOrderFoldableContainer)
+  void PreOrderTraverse(TraverseFun, const Node*) const;
+  void PostOrderTraverse(TraverseFun, const Node*) const;
 
-  // type PreOrderFold(arguments) specifiers; // Accessory function executing from one point of the list onwards
-  void PreOrderFold(FoldFunctor fun, void * acc, const Node * cur) const;
-  // type PostOrderFold(arguments) specifiers; // Accessory function executing from one point of the list onwards
-  void PostOrderFold(FoldFunctor fun, void * acc, const Node * cur) const;
-
-  /* ************************************************************************ */
-
-  // Auxiliary member functions (for PreOrderMappableContainer & PostOrderMappableContainer)
-
-  // type PreOrderMap(arguments) specifiers; // Accessory function executing from one point of the list onwards
-  void PreOrderMap(MapFunctor fun, const Node * cur) const;
-  // type PostOrderMap(arguments) specifiers; // Accessory function executing from one point of the list onward
-  void PostOrderMap(MapFunctor fun, const Node * cur) const;
-
-  /* ************************************************************************ */
-
-  // Auxiliary member functions (for MutablePreOrderMappableContainer & MutablePostOrderMappableContainer)
-
-  // type PreOrderMap(arguments) specifiers; // Accessory function executing from one point of the list onwards
-  void PreOrderMap(MutableMapFunctor fun, Node * cur);
-  // type PostOrderMap(arguments) specifiers; // Accessory function executing from one point of the list onward
-  void PostOrderMap(MutableMapFunctor fun, Node * cur);
-
-  /* ************************************************************************ */
+  void PreOrderMap(MapFun, Node*);
+  void PostOrderMap(MapFun, Node*);
 
 };
 

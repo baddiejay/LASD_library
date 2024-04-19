@@ -2,16 +2,19 @@
 namespace lasd {
 
 /* ************************************************************************** */
+
 template <typename Data>
-QueueVec<Data>::QueueVec(const MappableContainer<Data>& mc) : Vector<Data>(mc){
+QueueVec<Data>::QueueVec(const TraversableContainer<Data>& mc) : Vector<Data>(mc){
     head = 0;
-    tail = mc.size-1;
+    tail = size;
+    Vector<Data>::Resize(size*2);
 }
 
 template <typename Data>
-QueueVec<Data>::QueueVec(const MutableMappableContainer<Data>&& mmc) : Vector<Data>(std::(mmc)){
+QueueVec<Data>::QueueVec(MappableContainer<Data>&& mmc) noexcept : Vector<Data>(std::move(mmc)){
     head = 0;
-    tail = mc.size-1;
+    tail = size;
+    Vector<Data>::Resize(size*2);
 }
 
 template <typename Data>
@@ -21,7 +24,7 @@ QueueVec<Data>::QueueVec(const QueueVec<Data>& cpy) : Vector<Data>(cpy){
 }
 
 template <typename Data>
-QueueVec<Data>::QueueVec(QueueVec<Data>&& mov) noexcept Vector<Data>(std::(mov)){
+QueueVec<Data>::QueueVec(QueueVec<Data>&& mov) noexcept : Vector<Data>(std::move(mov)){
     std::swap(head, mov.head);
     std::swap(tail, mov.tail);
 }
@@ -44,21 +47,23 @@ QueueVec<Data>& QueueVec<Data>::operator=(QueueVec<Data>&& que) noexcept{
 
 template <typename Data>
 bool QueueVec<Data>::operator==(const QueueVec<Data>& que) const noexcept{
-    if(Size() != que.Size())
+    if(Size() != que.Size()){
         return false;
-    
-    unsigned long i = head;
+    }
+
+    unsigned long j = head;
     unsigned long k = que.head;
 
     //Until I don't reach the end of my queue, I compare each element of the two queues
-    while(unsigned long i=0; i<Size(); i++){
-        if(elements[i] != elements[k])
+    for(unsigned long i=0; i<Size(); i++){
+        if(elements[j] != que.elements[k]){
             return false;
+        }
         //The modulo operator allows me to directly come back to index 0 when size i reached since n%n equals 0
         //that is the beggining of my array.
         //% is the rest of the division between A and B. If B>A (like here) it always returns A
-        i = (i++) % size;
-        k = (k++) % que.size;
+        j = (j+1) % size;
+        k = (k+1) % que.size;
     }
 
     return true;
@@ -66,113 +71,109 @@ bool QueueVec<Data>::operator==(const QueueVec<Data>& que) const noexcept{
 
 template <typename Data>
 inline bool QueueVec<Data>::operator!=(const QueueVec<Data>& que) const noexcept{
-    return !(*this == que)
+    return !(*this == que);
 }
 
 template <typename Data>
 const Data& QueueVec<Data>::Head() const {
-    if (!Empty())
-        return Elements[head];
-    
-    throw std::length_error("Trying to access the head of an empty queue");
+    if (!Empty()){
+        return elements[head];
+    } else {
+        throw std::length_error("Trying to access the head of an empty queue");
+    }
 }
 
 template <typename Data>
 Data& QueueVec<Data>::Head(){
-    if (!Empty())
-        return Elements[head];
-    
-    throw std::length_error("Trying to access the head of an empty queue");
+    if (!Empty()){
+        return elements[head];
+    } else {
+        throw std::length_error("Trying to access the head of an empty queue");
+    }
 }
 
 template <typename Data>
-void QueueVec<Data>:Dequeue(){
+void QueueVec<Data>::Dequeue(){
     if (!Empty()){
-        head = (++head) % size;
-        if (Size() == size/4) 
-            Reduce();
-    } else 
+    	++head %= size;
+        Reduce();   
+    } else {
         throw std::length_error("Trying to dequeue from an empty queue");
+    }
 }
 
 template <typename Data>
 Data QueueVec<Data>::HeadNDequeue(){
-    Data data = Head();
-    Dequeue();
-    return data;
+    if (!Empty()){
+        Reduce();
+        Data dat(std::move(elements[head]));
+        ++head %= size;  
+        return dat; 
+    } else {
+        throw std::length_error("Trying to dequeue from an empty queue");
+    }
 }
 
 template <typename Data>
 void QueueVec<Data>::Enqueue(const Data& data){
-    if(Size() == size)
-        Expand();
-    tail = (++tail) % size;
-    elements[tail] = data;
+    Expand();
+    elements[tail++] = data;
+    tail %= size;
 }
 
 template <typename Data>
 void QueueVec<Data>::Enqueue(Data&& data){
-    if(Size() == size)
-        Expand();
-    tail = (++tail) % size;
-    elements[tail] = std::move(data);
+    Expand();
+    elements[tail++] = std::move(data);
+    tail %= size;
 }
 
 template <typename Data>
 inline bool QueueVec<Data>::Empty() const noexcept{
-    return (Size() == 0);
+    return ((head == tail));
 }
 
 template <typename Data>
 unsigned long QueueVec<Data>::Size() const noexcept{
-    return ((tail-head+size+1)%size);
+    return (((tail + size) - head) % size);
 }
 
 template<typename Data>
 void QueueVec<Data>::Clear() noexcept{
-    Vector<Data>::Clear();
-    elements = new Data[2] {};
-    size = 2;
-    head = 0;
-    tail = 0;
+    head = tail = 0;
+    Vector<Data>::Resize(4);
 }
 
 template<typename Data>
-void Expand() noexcept{
-    Data* tmp = new Data[size*2]{};
-    unsigned long newSize = Size();
-
-    for(unsigned long i = 0; i < newSize-1; i++){
-        std::swap(elements[(head + i) % size], tmp[i]);
+void QueueVec<Data>::Resize(unsigned long newSize, unsigned long num){
+    Data* tmp = new Data[newSize];
+    unsigned long max = (num <= newSize) ? num : newSize;
+    for(unsigned long idx1 = head, idx2 = 0; idx2 < max; ++idx1 %= size, ++idx2){
+        std::swap(elements[idx1], tmp[idx2]);
     }
-
     //In this way elements points to the tmp that I have just filled
     std::swap(elements, tmp);
-
-    head = 0;
-    tail = size - 1;
-    size = size*2;
-    
     delete[] tmp;
+    head = 0;
+    tail = num;
+    size = newSize;
 }
 
+
 template<typename Data>
-void Reduce() noexcept{
-    Data* tmp = new Data[size/2]{};
-    unsigned long newSize = Size();
-
-    for(unsigned long i = 0; i < newSize-1; i++){
-        std::swap(elements[(head + i) % size], tmp[i]);
+void QueueVec<Data>::Reduce() noexcept{
+    unsigned long num = Size();
+    if(num + 1 == size / 4){
+        Resize(size / 2, num);
     }
+}  
 
-    //In this way elements points to the tmp that I have just filled
-    std::swap(elements, tmp);
-
-    head = 0;
-    tail = size - 1;
-    size = size/2;
-    
-    delete[] tmp;
+template<typename Data>
+void QueueVec<Data>::Expand() noexcept{
+    unsigned long num = Size();
+    if(num + 1 == size){
+        Resize(size * 2, num);
+    }
 }  
 /* ************************************************************************** */
 

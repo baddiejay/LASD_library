@@ -12,10 +12,12 @@
 namespace lasd {
 
 /* ************************************************************************** */
+
 //Users can see and use the methods of the Queue interface (public inheritance) which are implemented using 
 //the methods of List that are not visible and usable from the user but only inside this class (protected inheritance)
+
 template <typename Data>
-class QueueLst : virtual protected List<Data>
+class QueueLst : virtual protected List<Data>,
                  virtual public Queue<Data>{
                   // Must extend Queue<Data>,
                   //             List<Data>
@@ -45,9 +47,8 @@ public:
 
   // Copy constructor
   QueueLst(const QueueLst<Data>& cpy) : List<Data>(cpy) {};
-
   // Move constructor
-  QueueLst(QueueLst<Data>&& cpy) noexcept : List<Data>(std::move(mve)) {};
+  QueueLst(QueueLst<Data>&& cpy) noexcept : List<Data>(std::move(cpy)) {};
 
   /* ************************************************************************ */
 
@@ -58,7 +59,6 @@ public:
 
   // Copy assignment
   QueueLst<Data>& operator=(const QueueLst<Data>&);
-
   // Move assignment
   QueueLst<Data>& operator=(const QueueLst<Data>&&) noexcept;
 
@@ -71,7 +71,6 @@ public:
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Queue)
-
   const Data& Head() const override; // Override Queue member (non-mutable version; must throw std::length_error when empty)
   Data& Head() override; // Override Queue member (mutable version; must throw std::length_error when empty)
   void Dequeue() override; // Override Queue member (must throw std::length_error when empty)
@@ -82,7 +81,6 @@ public:
   /* ************************************************************************ */
 
   // Specific member function (inherited from ClearableContainer)
-
   using List<Data>::Clear;
 
 };

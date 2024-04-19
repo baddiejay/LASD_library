@@ -14,6 +14,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
+
 class QueueVec : virtual public Queue<Data>,
                  virtual protected Vector<Data>{
                   // Must extend Queue<Data>,
@@ -28,22 +29,19 @@ protected:
   using Vector<Data>::size;
   using Vector<Data>::elements;
 
-  //First element occupied
   unsigned long head = 0;
-  //Last element occupied
-  unsigned long tail = -1;
-  // Prima vado avanti e poi inserisco
+  unsigned long tail = 0;
 
 public:
 
   // Default constructor
-  QueueVec() : Vector<Data>(2) {};
+  QueueVec() : Vector<Data>(4) {};
 
   /* ************************************************************************ */
 
   // Specific constructor
-  QueueVec(const MappableContainer<Data>&); // A queue obtained from a MappableContainer
-  QueueVec(const MutableMappableContainer<Data>&&); // A queue obtained from a MutableMappableContainer
+  QueueVec(const TraversableContainer<Data>&); // A queue obtained from a MappableContainer
+  QueueVec(MappableContainer<Data>&&) noexcept; // A queue obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
@@ -86,24 +84,20 @@ public:
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Container)
-
   inline bool Empty() const noexcept override; // Override Container member
-
   unsigned long Size() const noexcept override; // Override Container member
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from ClearableContainer)
-
-  void Clear() override; // Override ClearableContainer member
+  void Clear() noexcept override; // Override ClearableContainer member
 
 protected:
 
   // Auxiliary member functions
-
   void Expand() noexcept;
   void Reduce() noexcept;
-  void SwapVectors(unsigned long) noexcept;
+  void Resize(unsigned long newSize, unsigned long num);
 
 };
 

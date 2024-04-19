@@ -13,11 +13,11 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
+
 class Queue : virtual public ClearableContainer{
               // Must extend ClearableContainer
 
 private:
-
   // ...
 
 protected:
@@ -33,7 +33,6 @@ public:
 
   // Copy assignment
   Queue& operator=(const Queue&) = delete; // Copy assignment of abstract types should not be possible.
-
   // Move assignment
   Queue& operator=(Queue&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
@@ -46,7 +45,6 @@ public:
   /* ************************************************************************ */
 
   // Specific member functions
-
   virtual const Data& Head() const = 0; // (non-mutable version; concrete function must throw std::length_error when empty)
   virtual Data& Head() = 0; // (mutable version; concrete function must throw std::length_error when empty)
   virtual void Dequeue() = 0; // (concrete function must throw std::length_error when empty)

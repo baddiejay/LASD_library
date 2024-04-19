@@ -21,7 +21,7 @@ using namespace std;
 /* ************************************************************************** */
 
 template <typename Stk>
-void stestStackInt(Stk& stk, uint& testnum, uint& testerr) {
+void stestStackInt(Stk & stk, uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   try {
     Empty(loctestnum, loctesterr, stk, true);
@@ -66,7 +66,8 @@ void stestStackInt(Stk& stk, uint& testnum, uint& testerr) {
     Pop(loctestnum, loctesterr, movstk, false);
     Empty(loctestnum, loctesterr, movstk, true);
     Size(loctestnum, loctesterr, movstk, true, 0);
-  } catch(...) {
+  }
+  catch (...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
   }
@@ -74,7 +75,7 @@ void stestStackInt(Stk& stk, uint& testnum, uint& testerr) {
   testerr += loctesterr;
   cout << "End of Stack<int> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
 }
-void stestStackInt(uint& testnum, uint& testerr) {
+void stestStackInt(uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   lasd::StackVec<int> stkvec;
   cout << endl << "Begin of StackVec<int> Test:" << endl;
@@ -87,7 +88,7 @@ void stestStackInt(uint& testnum, uint& testerr) {
 }
 
 template <typename Stk>
-void stestStackFloat(Stk& stk, uint& testnum, uint& testerr) {
+void stestStackFloat(Stk & stk, uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   try {
     PushC(loctestnum, loctesterr, stk, 5.9);
@@ -102,7 +103,8 @@ void stestStackFloat(Stk& stk, uint& testnum, uint& testerr) {
     Pop(loctestnum, loctesterr, stk, true);
     TopNPop(loctestnum, loctesterr, stk, true, 5.9);
     Pop(loctestnum, loctesterr, stk, false);
-  } catch(...) {
+  }
+  catch (...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
   }
@@ -110,7 +112,7 @@ void stestStackFloat(Stk& stk, uint& testnum, uint& testerr) {
   testerr += loctesterr;
   cout << "End of Stack<double> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
 }
-void stestStackFloat(uint& testnum, uint& testerr) {
+void stestStackFloat(uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   lasd::StackVec<double> stkvec;
   cout << endl << "Begin of StackVec<double> Test:" << endl;
@@ -123,7 +125,7 @@ void stestStackFloat(uint& testnum, uint& testerr) {
 }
 
 template <typename Stk>
-void stestStackString(Stk& stk, uint& testnum, uint& testerr) {
+void stestStackString(Stk & stk, uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   try {
     PushM(loctestnum, loctesterr, stk, string("A"));
@@ -136,7 +138,8 @@ void stestStackString(Stk& stk, uint& testnum, uint& testerr) {
     Top(loctestnum, loctesterr, stk, true, string("A"));
     Pop(loctestnum, loctesterr, stk, true);
     Pop(loctestnum, loctesterr, stk, false);
-  } catch(...) {
+  }
+  catch (...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
   }
@@ -144,7 +147,7 @@ void stestStackString(Stk& stk, uint& testnum, uint& testerr) {
   testerr += loctesterr;
   cout << "End of Stack<string> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
 }
-void stestStackString(uint& testnum, uint& testerr) {
+void stestStackString(uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   lasd::StackVec<string> stkvec;
   cout << endl << "Begin of StackVec<string> Test:" << endl;
@@ -167,7 +170,8 @@ void stestStackString(uint& testnum, uint& testerr) {
     PushM(loctestnum, loctesterr, stklst, string("A"));
     lasd::StackLst<string> newstklst(vec);
     EqualStack(loctestnum, loctesterr, stklst, newstklst, true);
-  } catch(...) {
+  }
+  catch (...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
   }
@@ -175,7 +179,7 @@ void stestStackString(uint& testnum, uint& testerr) {
   testerr += loctesterr;
 }
 
-void stestStack(uint& testnum, uint& testerr) {
+void stestStack(uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   stestStackInt(loctestnum, loctesterr);
   stestStackFloat(loctestnum, loctesterr);
@@ -188,7 +192,7 @@ void stestStack(uint& testnum, uint& testerr) {
 /* ************************************************************************** */
 
 template <typename Que>
-void stestQueueInt(Que& que, uint& testnum, uint& testerr) {
+void stestQueueInt(Que & que, uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   try {
     Empty(loctestnum, loctesterr, que, true);
@@ -233,7 +237,8 @@ void stestQueueInt(Que& que, uint& testnum, uint& testerr) {
     Dequeue(loctestnum, loctesterr, movque, false);
     Empty(loctestnum, loctesterr, movque, true);
     Size(loctestnum, loctesterr, movque, true, 0);
-  } catch(...) {
+  }
+  catch (...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
   }
@@ -241,7 +246,7 @@ void stestQueueInt(Que& que, uint& testnum, uint& testerr) {
   testerr += loctesterr;
   cout << "End of Queue<int> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
 }
-void stestQueueInt(uint& testnum, uint& testerr) {
+void stestQueueInt(uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   lasd::QueueVec<int> quevec;
   cout << endl << "Begin of QueueVec<int> Test:" << endl;
@@ -254,22 +259,23 @@ void stestQueueInt(uint& testnum, uint& testerr) {
 }
 
 template <typename Que>
-void stestQueueFloat(Que& que, uint& testnum, uint& testerr) {
+void stestQueueFloat(Que & que, uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   try {
-      EnqueueC(loctestnum, loctesterr, que, 5.9);
-      EnqueueC(loctestnum, loctesterr, que, 4.4);
-      EnqueueC(loctestnum, loctesterr, que, 9.5);
+    EnqueueC(loctestnum, loctesterr, que, 5.9);
+    EnqueueC(loctestnum, loctesterr, que, 4.4);
+    EnqueueC(loctestnum, loctesterr, que, 9.5);
 
-      Empty(loctestnum, loctesterr, que, false);
-      Size(loctestnum, loctesterr, que, true, 3);
+    Empty(loctestnum, loctesterr, que, false);
+    Size(loctestnum, loctesterr, que, true, 3);
 
-      HeadNDequeue(loctestnum, loctesterr, que, true, 5.9);
-      Head(loctestnum, loctesterr, que, true, 4.4);
-      Dequeue(loctestnum, loctesterr, que, true);
-      HeadNDequeue(loctestnum, loctesterr, que, true, 9.5);
-      Dequeue(loctestnum, loctesterr, que, false);
-  } catch(...) {
+    HeadNDequeue(loctestnum, loctesterr, que, true, 5.9);
+    Head(loctestnum, loctesterr, que, true, 4.4);
+    Dequeue(loctestnum, loctesterr, que, true);
+    HeadNDequeue(loctestnum, loctesterr, que, true, 9.5);
+    Dequeue(loctestnum, loctesterr, que, false);
+  }
+  catch (...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
   }
@@ -277,7 +283,7 @@ void stestQueueFloat(Que& que, uint& testnum, uint& testerr) {
   testerr += loctesterr;
   cout << "End of Queue<double> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
 }
-void stestQueueFloat(uint& testnum, uint& testerr) {
+void stestQueueFloat(uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   lasd::QueueVec<double> quevec;
   cout << endl << "Begin of QueueVec<double> Test:" << endl;
@@ -290,7 +296,7 @@ void stestQueueFloat(uint& testnum, uint& testerr) {
 }
 
 template <typename Que>
-void stestQueueString(Que& que, uint& testnum, uint& testerr) {
+void stestQueueString(Que & que, uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   try {
     EnqueueM(loctestnum, loctesterr, que, string("A"));
@@ -303,7 +309,8 @@ void stestQueueString(Que& que, uint& testnum, uint& testerr) {
     Head(loctestnum, loctesterr, que, true, string("B"));
     Dequeue(loctestnum, loctesterr, que, true);
     Dequeue(loctestnum, loctesterr, que, false);
-  } catch(...) {
+  }
+  catch (...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
   }
@@ -311,7 +318,7 @@ void stestQueueString(Que& que, uint& testnum, uint& testerr) {
   testerr += loctesterr;
   cout << "End of Queue<string> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
 }
-void stestQueueString(uint& testnum, uint& testerr) {
+void stestQueueString(uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   lasd::QueueVec<string> quevec;
   cout << endl << "Begin of QueueVec<string> Test:" << endl;
@@ -334,7 +341,8 @@ void stestQueueString(uint& testnum, uint& testerr) {
     EnqueueM(loctestnum, loctesterr, quelst, string("B"));
     lasd::QueueLst<string> newquelst(vec);
     EqualQueue(loctestnum, loctesterr, quelst, newquelst, true);
-  } catch(...) {
+  }
+  catch (...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;
   }
@@ -342,7 +350,7 @@ void stestQueueString(uint& testnum, uint& testerr) {
   testerr += loctesterr;
 }
 
-void stestQueue(uint& testnum, uint& testerr) {
+void stestQueue(uint & testnum, uint & testerr) {
   uint loctestnum = 0, loctesterr = 0;
   stestQueueInt(loctestnum, loctesterr);
   stestQueueFloat(loctestnum, loctesterr);
@@ -354,7 +362,7 @@ void stestQueue(uint& testnum, uint& testerr) {
 
 /* ************************************************************************** */
 
-void testSimpleExercise1B(uint& testnum, uint& testerr) {
+void testSimpleExercise1B(uint & testnum, uint & testerr) {
   stestStack(testnum, testerr);
   stestQueue(testnum, testerr);
   cout << endl << "Exercise 1B (Simple Test) (Errors/Tests: " << testerr << "/" << testnum << ")" << endl;

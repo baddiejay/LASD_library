@@ -9,114 +9,83 @@
 // MappableContainer member functions!
 
 template <typename Data>
-void Map(uint& testnum, uint& testerr, const lasd::MappableContainer<Data>& con, bool chk, typename lasd::MappableContainer<Data>::MapFunctor fun) {
+void Map(uint & testnum, uint & testerr, lasd::MappableContainer<Data> & con, bool chk, typename lasd::MappableContainer<Data>::MapFun fun) {
   bool tst = true;
   testnum++;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Executing map - ";
     con.Map(fun);
     std::cout << ": " << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  }
+  catch (std::exception & exc) {
     std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);
 }
 
 template <typename Data>
-void MutableMap(uint& testnum, uint& testerr, lasd::MutableMappableContainer<Data>& con, bool chk, typename lasd::MutableMappableContainer<Data>::MutableMapFunctor fun) {
-  bool tst = true;
-  testnum++;
-  try {
-    std::cout << " " << testnum << " (" << testerr << ") Executing map - ";
-    con.Map(fun);
-    std::cout << ": " << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
-    std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
-  }
-  testerr += (1 - (uint) tst);
-}
-
-template <typename Data>
-void MapPrint(const Data& dat) {
-  std::cout << dat << " ";
-}
-
-template <typename Data>
-void MapIncrement(Data& dat) {
+void MapIncrement(Data & dat) {
   dat++;
 }
 
 template <typename Data>
-void MapDecrement(Data& dat) {
+void MapDecrement(Data & dat) {
   dat--;
 }
 
 template <typename Data>
-void MapIncrementNPrint(Data& dat) {
+void MapIncrementNPrint(Data & dat) {
   std::cout << dat++ << "->" << dat << "; ";
 }
 
 template <typename Data>
-void MapDouble(Data& dat) {
+void MapDouble(Data & dat) {
   dat *= 2;
 }
 
 template <typename Data>
-void MapHalf(Data& dat) {
+void MapHalf(Data & dat) {
   dat /= 2;
 }
 
 template <typename Data>
-void MapDoubleNPrint(Data& dat) {
+void MapDoubleNPrint(Data & dat) {
   std::cout << dat << "->" << (dat *= 2) << "; ";
 }
 
 template <typename Data>
-void MapInvert(Data& dat) {
+void MapInvert(Data & dat) {
   dat = -dat;
 }
 
 template <typename Data>
-void MapInvertNPrint(Data& dat) {
+void MapInvertNPrint(Data & dat) {
   std::cout << dat << "->" << (dat = -dat) << "; ";
 }
 
 template <typename Data>
-void MapParityInvert(Data& dat) {
+void MapParityInvert(Data & dat) {
   if (dat % 2 != 0) { dat = -dat; }
 }
 
-void MapStringAppend(std::string&, const std::string&);
+void MapStringAppend(std::string &, const std::string &);
 
-void MapStringNonEmptyAppend(std::string&, const std::string&);
+void MapStringNonEmptyAppend(std::string &, const std::string &);
 
 /* ************************************************************************** */
 
 // PreOrderMappableContainer member functions!
 
 template <typename Data>
-void MapPreOrder(uint& testnum, uint& testerr, const lasd::PreOrderMappableContainer<Data>& con, bool chk, typename lasd::MappableContainer<Data>::MapFunctor fun) {
+void MapPreOrder(uint & testnum, uint & testerr, lasd::PreOrderMappableContainer<Data> & con, bool chk, typename lasd::MappableContainer<Data>::MapFun fun) {
   bool tst = true;
   testnum++;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Executing map in pre order - ";
     con.PreOrderMap(fun);
     std::cout << ": " << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
-    std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
-}
-
-template <typename Data>
-void MapPreOrder(uint& testnum, uint& testerr, lasd::MutablePreOrderMappableContainer<Data>& con, bool chk, typename lasd::MutableMappableContainer<Data>::MutableMapFunctor fun) {
-  bool tst = true;
-  testnum++;
-  try {
-    std::cout << " " << testnum << " (" << testerr << ") Executing map in pre order - ";
-    con.PreOrderMap(fun);
-    std::cout << ": " << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  catch (std::exception & exc) {
     std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);
@@ -127,28 +96,15 @@ void MapPreOrder(uint& testnum, uint& testerr, lasd::MutablePreOrderMappableCont
 // PostOrderMappableContainer member functions!
 
 template <typename Data>
-void MapPostOrder(uint& testnum, uint& testerr, const lasd::PostOrderMappableContainer<Data>& con, bool chk, typename lasd::MappableContainer<Data>::MapFunctor fun) {
+void MapPostOrder(uint & testnum, uint & testerr, lasd::PostOrderMappableContainer<Data> & con, bool chk, typename lasd::MappableContainer<Data>::MapFun fun) {
   bool tst = true;
   testnum++;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Executing map in post order - ";
     con.PostOrderMap(fun);
     std::cout << ": " << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
-    std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
-}
-
-template <typename Data>
-void MapPostOrder(uint& testnum, uint& testerr, lasd::MutablePostOrderMappableContainer<Data>& con, bool chk, typename lasd::MutableMappableContainer<Data>::MutableMapFunctor fun) {
-  bool tst = true;
-  testnum++;
-  try {
-    std::cout << " " << testnum << " (" << testerr << ") Executing map in post order - ";
-    con.PostOrderMap(fun);
-    std::cout << ": " << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  catch (std::exception & exc) {
     std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);
@@ -159,28 +115,15 @@ void MapPostOrder(uint& testnum, uint& testerr, lasd::MutablePostOrderMappableCo
 // InOrderMappableContainer member functions!
 
 template <typename Data>
-void MapInOrder(uint& testnum, uint& testerr, const lasd::InOrderMappableContainer<Data>& con, bool chk, typename lasd::MappableContainer<Data>::MapFunctor fun) {
+void MapInOrder(uint & testnum, uint & testerr, lasd::InOrderMappableContainer<Data> & con, bool chk, typename lasd::MappableContainer<Data>::MapFun fun) {
   bool tst = true;
   testnum++;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Executing map in order - ";
     con.InOrderMap(fun);
     std::cout << ": " << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
-    std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
-}
-
-template <typename Data>
-void MapInOrder(uint& testnum, uint& testerr, lasd::MutableInOrderMappableContainer<Data>& con, bool chk, typename lasd::MutableMappableContainer<Data>::MutableMapFunctor fun) {
-  bool tst = true;
-  testnum++;
-  try {
-    std::cout << " " << testnum << " (" << testerr << ") Executing map in order - ";
-    con.InOrderMap(fun);
-    std::cout << ": " << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  catch (std::exception & exc) {
     std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);
@@ -191,28 +134,15 @@ void MapInOrder(uint& testnum, uint& testerr, lasd::MutableInOrderMappableContai
 // BreadthMappableContainer member functions!
 
 template <typename Data>
-void MapBreadth(uint& testnum, uint& testerr, const lasd::BreadthMappableContainer<Data>& con, bool chk, typename lasd::MappableContainer<Data>::MapFunctor fun) {
+void MapBreadth(uint & testnum, uint & testerr, lasd::BreadthMappableContainer<Data> & con, bool chk, typename lasd::MappableContainer<Data>::MapFun fun) {
   bool tst = true;
   testnum++;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Executing map in breadth - ";
     con.BreadthMap(fun);
     std::cout << ": " << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
-    std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   }
-  testerr += (1 - (uint) tst);
-}
-
-template <typename Data>
-void MapBreadth(uint& testnum, uint& testerr, lasd::MutableBreadthMappableContainer<Data>& con, bool chk, typename lasd::MutableMappableContainer<Data>::MutableMapFunctor fun) {
-  bool tst = true;
-  testnum++;
-  try {
-    std::cout << " " << testnum << " (" << testerr << ") Executing map in breadth - ";
-    con.BreadthMap(fun);
-    std::cout << ": " << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  catch (std::exception & exc) {
     std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
   }
   testerr += (1 - (uint) tst);

@@ -9,14 +9,15 @@
 // DictionaryContainer member functions!
 
 template <typename Data>
-void InsertC(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con, bool chk, const Data& val) {
+void InsertC(uint & testnum, uint & testerr, lasd::DictionaryContainer<Data> & con, bool chk, const Data & val) {
   testnum++;
   bool tst;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Insertion in the dictionary container of the value \"" << val << "\"; ";
     std::cout << "it " << ((tst = con.Insert(val)) ? "has" : "has not") << " been inserted: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  }
+  catch (std::exception & exc) {
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
@@ -24,7 +25,7 @@ void InsertC(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con,
 }
 
 template <typename Data>
-void InsertM(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con, bool chk, Data&& val) {
+void InsertM(uint & testnum, uint & testerr, lasd::DictionaryContainer<Data> & con, bool chk, Data && val) {
   testnum++;
   bool tst;
   try {
@@ -32,7 +33,8 @@ void InsertM(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con,
     std::cout << "it " << ((tst = con.Insert(std::move(val))) ? "has" : "has not") << " been inserted: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
     std::cout << "Correct!" << std::endl;
-  } catch(std::exception exc) {
+  }
+  catch (std::exception & exc) {
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
@@ -40,14 +42,15 @@ void InsertM(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con,
 }
 
 template <typename Data>
-void Remove(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con, bool chk, const Data& val) {
+void Remove(uint & testnum, uint & testerr, lasd::DictionaryContainer<Data> & con, bool chk, const Data & val) {
   testnum++;
   bool tst;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Removal from the dictionary container of the value \"" << val << "\"; ";
     std::cout << "it " << ((tst = con.Remove(val)) ? "has" : "has not") << " been removed: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  }
+  catch (std::exception & exc) {
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
@@ -55,14 +58,15 @@ void Remove(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con, 
 }
 
 template <typename Data>
-void InsertAllC(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con, bool chk, const lasd::MappableContainer<Data>& mc) {
+void InsertAllC(uint & testnum, uint & testerr, lasd::DictionaryContainer<Data> & con, bool chk, const lasd::TraversableContainer<Data> & mc) {
   testnum++;
   bool tst = true;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Insertion in the dictionary container of the values of the given mappable container; ";
     std::cout << ((tst = con.InsertAll(mc)) ? "all" : "not all") << " values have been inserted: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  }
+  catch (std::exception & exc) {
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
@@ -70,14 +74,15 @@ void InsertAllC(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& c
 }
 
 template <typename Data>
-void InsertAllM(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con, bool chk, lasd::MappableContainer<Data>&& mc) {
+void InsertAllM(uint & testnum, uint & testerr, lasd::DictionaryContainer<Data> & con, bool chk, lasd::MappableContainer<Data> && mc) {
   testnum++;
   bool tst = true;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Insertion in the dictionary container of the values of the given mappable container; ";
     std::cout << ((tst = con.InsertAll(std::move(mc))) ? "all" : "not all") << " values have been inserted: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  }
+  catch (std::exception & exc) {
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
@@ -85,14 +90,15 @@ void InsertAllM(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& c
 }
 
 template <typename Data>
-void RemoveAll(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con, bool chk, const lasd::MappableContainer<Data>& mc) {
+void RemoveAll(uint & testnum, uint & testerr, lasd::DictionaryContainer<Data> & con, bool chk, const lasd::TraversableContainer<Data> & mc) {
   testnum++;
   bool tst = true;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Removal from the dictionary container of the values of the given mappable container; ";
     std::cout << ((tst = con.RemoveAll(mc)) ? "all" : "not all") << " values have been removed: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  }
+  catch (std::exception & exc) {
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
@@ -100,14 +106,15 @@ void RemoveAll(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& co
 }
 
 template <typename Data>
-void InsertSomeC(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con, bool chk, const lasd::MappableContainer<Data>& mc) {
+void InsertSomeC(uint & testnum, uint & testerr, lasd::DictionaryContainer<Data> & con, bool chk, const lasd::TraversableContainer<Data> & mc) {
   testnum++;
   bool tst = true;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Insertion in the dictionary container of the values of the given mappable container; ";
     std::cout << ((tst = con.InsertAll(mc)) ? "some value" : "none of the values") << " has been inserted: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  }
+  catch (std::exception & exc) {
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
@@ -115,14 +122,15 @@ void InsertSomeC(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& 
 }
 
 template <typename Data>
-void InsertSomeM(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con, bool chk, lasd::MappableContainer<Data>&& mc) {
+void InsertSomeM(uint & testnum, uint & testerr, lasd::DictionaryContainer<Data> & con, bool chk, lasd::MappableContainer<Data> && mc) {
   testnum++;
   bool tst = true;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Insertion in the dictionary container of the values of the given mappable container; ";
     std::cout << ((tst = con.InsertAll(std::move(mc))) ? "some value" : "none of the values") << " has been inserted: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  }
+  catch (std::exception & exc) {
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }
@@ -130,14 +138,15 @@ void InsertSomeM(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& 
 }
 
 template <typename Data>
-void RemoveSome(uint& testnum, uint& testerr, lasd::DictionaryContainer<Data>& con, bool chk, const lasd::MappableContainer<Data>& mc) {
+void RemoveSome(uint & testnum, uint & testerr, lasd::DictionaryContainer<Data> & con, bool chk, const lasd::TraversableContainer<Data> & mc) {
   testnum++;
   bool tst = true;
   try {
     std::cout << " " << testnum << " (" << testerr << ") Removal from the dictionary container of the values of the given mappable container; ";
-    std::cout << ((tst = con.InsertAll(mc)) ? "some value" : "none of the values") << " has been removed: ";
+    std::cout << ((tst = con.RemoveAll(mc)) ? "some value" : "none of the values") << " has been removed: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
-  } catch(std::exception exc) {
+  }
+  catch (std::exception & exc) {
     tst = false;
     std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
   }

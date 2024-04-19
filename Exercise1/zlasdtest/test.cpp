@@ -2,8 +2,6 @@
 #include "./exercise1a/test.hpp"
 #include "./exercise1b/test.hpp"
 
-// ...
-
 /* ************************************************************************** */
 
 #include <iostream>
@@ -35,12 +33,8 @@ void lasdtest() {
   testFullExercise1B(loctestnum, loctesterr);
   ftestnum += loctestnum; ftesterr += loctesterr;
 
-  cout << endl << "Exercise 1 (Simple Test) (Errors/Tests: " << stesterr << "/" << stestnum << ")" << endl;
+  cout << endl << "Exercise 1 (Simple Test) (Errors/Tests: " << stesterr << "/" << stestnum << ")";
   cout << endl << "Exercise 1 (Full Test) (Errors/Tests: " << ftesterr << "/" << ftestnum << ")" << endl;
-
-  stestnum = 0; stesterr = 0; ftestnum = 0; ftesterr = 0;
-
-  // ...
 
   cout << endl << "Goodbye!" << endl;
 }

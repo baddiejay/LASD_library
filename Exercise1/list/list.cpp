@@ -25,7 +25,10 @@ inline List<Data>::Node::Node(Node&& node) noexcept{
 
 template <typename Data>
 List<Data>::Node::~Node(){
-    delete next;
+     if (next != nullptr) {
+        delete next;
+        next = nullptr; // Imposta il puntatore al nodo successivo a nullptr per evitare un accesso a una memoria deallocata
+    }
 }
 
 template <typename Data>
@@ -35,7 +38,7 @@ bool List<Data>::Node::operator==(const Node& node) const noexcept{
 
 template <typename Data>
 bool inline List<Data>::Node::operator!=(const Node& node) const noexcept{
-  return !(this == node);
+  return !((*this) == node);
 }
 
 // ******************** LIST ************************
@@ -257,6 +260,7 @@ bool List<Data>::Remove(const Data& data){
         if (tmpNode2->element == data) {
             //When I've found the one i want to delete i connect the previous with the next 
             tmpNode1->next = tmpNode2->next;
+            tmpNode2->next = nullptr;
             delete tmpNode2;
             tmpNode2 = nullptr;
             size--;
@@ -264,13 +268,17 @@ bool List<Data>::Remove(const Data& data){
                 tail=tmpNode1;
             }
             return true;
+            //tmpNode2->next ? tmpNode2->next = nullptr : tail = tmpNode1;
+      	    delete tmpNode2;
+            size--;
+            return true;
         }
         tmpNode1 = tmpNode2;
         tmpNode2 = tmpNode2->next;
         }
 
         return false;
-    }
+   }
 }
 
 // Must necessarily scroll through the list, it will be just as costly as moving the element away from the list
@@ -372,7 +380,9 @@ void List<Data>::PostOrderMap(MapFun fun) {
 template <typename Data>
 void List<Data>::PreOrderTraverse(TraverseFun fun, const Node* cur) const{
     for(; cur!=nullptr; cur=cur->next){
-        fun(cur->element);
+    	if(cur != nullptr){ // Verifica se il nodo corrente è non nullo prima di accedere ai suoi dati
+            fun(cur->element);
+        }
     }
 }
 

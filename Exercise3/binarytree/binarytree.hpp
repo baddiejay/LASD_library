@@ -89,33 +89,25 @@ public:
   BinaryTree& operator=(const BinaryTree&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  // type operator=(argument); // Move assignment of abstract types should not be possible.
-  BinaryTree& operator=(BinaryTree&&) noexcept = delete;
+  BinaryTree& operator=(BinaryTree&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers; // Comparison of abstract binary tree is possible.
-  bool operator==(const BinaryTree&) const noexcept;
-  // type operator!=(argument) specifiers; // Comparison of abstract binary tree is possible.
-  bool operator!=(const BinaryTree&) const noexcept;
+  bool operator==(const BinaryTree&) const noexcept; // Comparison of abstract binary tree is possible.
+  bool operator!=(const BinaryTree&) const noexcept; // Comparison of abstract binary tree is possible.
 
   /* ************************************************************************ */
 
   // Specific member functions
-
-  // type Root() specifiers; // (concrete function must throw std::length_error when empty)
-  virtual const Node& Root() const = 0;
-
+  virtual const Node& Root() const = 0; // (concrete function must throw std::length_error when empty)
  
   /* ************************************************************************ */
 
   // Specific member function (inherited from TraversableContainer)
-
   using typename TraversableContainer<Data>::TraverseFun;
 
-  // type Traverse(arguments) specifiers; // Override TraversableContainer member
-  void Traverse(TraverseFun) const override;
+  void Traverse(TraverseFun) const override; // Override TraversableContainer member
 
   /* ************************************************************************ */
 
@@ -143,27 +135,10 @@ public:
 
 protected:
 
+  // Auxiliary functions, if necessary!
   void PreOrderTraverse(TraverseFun fun, const Node * cur) const;
-
-  /* ************************************************************************ */
-
-  // Auxiliary member function (for PostOrderMappableContainer)
-
-  // type PostOrderMap(arguments) specifiers; // Accessory function executing from one node of the tree
   void PostOrderTraverse(TraverseFun fun, const Node * cur) const;
-
-  /* ************************************************************************ */
-
-  // Auxiliary member function (for InOrderMappableContainer)
-
-  // type InOrderMap(arguments) specifiers; // Accessory function executing from one node of the tree
   void InOrderTraverse(TraverseFun fun, const Node * cur) const;
-
-  /* ************************************************************************ */
-
-  // Auxiliary member function (for BreadthMappableContainer)
-
-  // type BreadthMap(arguments) specifiers; // Accessory function executing from one node of the tree
   void BreadthTraverse(TraverseFun fun, const Node * cur) const;
 
 };
@@ -192,130 +167,86 @@ public:
    struct MutableNode : virtual public BinaryTree<Data>::Node {
                         // Must extend Node
 
-    // friend class MutableBinaryTree<Data>;
     friend class MutableBinaryTree<Data>;
     /* ********************************************************************** */
 
     // Destructor
-    // ~MutableNode() specifiers
     virtual ~MutableNode() = default;
 
     /* ********************************************************************** */
 
     // Copy assignment
-    // type operator=(argument); // Copy assignment of abstract types should not be possible.
-    MutableNode& operator=(const MutableNode&) = delete;
-
+    MutableNode& operator=(const MutableNode&) = delete; // Copy assignment of abstract types should not be possible.
+    
     // Move assignment
-    // type operator=(argument); // Move assignment of abstract types should not be possible.
-    MutableNode& operator=(MutableNode&&) noexcept = delete;
-
+    MutableNode& operator=(MutableNode&&) noexcept = delete; // Move assignment of abstract types should not be possible.
+    
     /* ********************************************************************** */
 
     // Specific member functions
-
-    // type Element() specifiers; // Mutable access to the element (concrete function should not throw exceptions)
     using BinaryTree<Data>::Node::Element;
-    virtual Data& Element() noexcept = 0;
+    virtual Data& Element() noexcept = 0; // Mutable access to the element (concrete function should not throw exceptions)
 
-    // type LeftChild() specifiers; // (concrete function must throw std::out_of_range when not existent)
     using BinaryTree<Data>::Node::LeftChild;
-    virtual MutableNode& LeftChild() = 0;
-
-    // type RightChild() specifiers; // (concrete function must throw std::out_of_range when not existent)    
+    virtual MutableNode& LeftChild() = 0; // (concrete function must throw std::out_of_range when not existent)
+    
     using BinaryTree<Data>::Node::RightChild;
-    virtual MutableNode& RightChild() = 0;
+    virtual MutableNode& RightChild() = 0; // (concrete function must throw std::out_of_range when not existent)
   };
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~MutableBinaryTree() specifiers
   virtual ~MutableBinaryTree() = default;
 
   /* ************************************************************************ */
 
-  // Copy assignment
-  // type operator=(argument); // Copy assignment of abstract types should not be possible.
-  MutableBinaryTree& operator=(const MutableBinaryTree&) = delete;
+  // Copy assignment 
+  MutableBinaryTree& operator=(const MutableBinaryTree&) = delete; // Copy assignment of abstract types should not be possible.
   
 
   // Move assignment
-  // type operator=(argument); // Move assignment of abstract types should not be possible.
-  MutableBinaryTree& operator=(MutableBinaryTree&&) noexcept = delete;
+  MutableBinaryTree& operator=(MutableBinaryTree&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   /* ************************************************************************ */
 
-  // Specific member functions
-
-  // type Root() specifiers; // (concrete function must throw std::length_error when empty)  
+  // Specific member functions 
   using BinaryTree<Data>::Root;
-  virtual MutableNode& Root() = 0;
+  virtual MutableNode& Root() = 0; // (concrete function must throw std::length_error when empty) 
 
   /* ************************************************************************ */
 
-  // Specific member function (inherited from MutableMappableContainer)
-
-  // using typename MutableMappableContainer<Data>::MutableMapFunctor;
+  // Specific member function (inherited from MappableContainer)
   using typename MappableContainer<Data>::MapFun;
 
-  // type Map(arguments) specifiers; // Override MutableMappableContainer member
-  void Map(MapFun fun) override;
+  void Map(MapFun fun) override; // Override MappableContainer member
 
   /* ************************************************************************ */
 
-  // Specific member function (inherited from MutablePreOrderMappableContainer)
-
-  // type PreOrderMap(arguments) specifiers; // Override MutablePreOrderMappableContainer member
-  void PreOrderMap(MapFun fun) override;
+  // Specific member function (inherited from PreOrderMappableContainer)
+  void PreOrderMap(MapFun fun) override; // Override PreOrderMappableContainer member
 
   /* ************************************************************************ */
 
-  // Specific member function (inherited from MutablePostOrderMappableContainer)
-
-  // type PostOrderMap(arguments) specifiers; // Override MutablePostOrderMappableContainer member
-  void PostOrderMap(MapFun fun) override;
+  // Specific member function (inherited from PostOrderMappableContainer)
+  void PostOrderMap(MapFun fun) override; // Override PostOrderMappableContainer member
 
   /* ************************************************************************ */
 
-  // Specific member function (inherited from MutableInOrderMappableContainer)
-
-  // type InOrderMap(arguments) specifiers; // Override MutableInOrderMappableContainer member
-  void InOrderMap(MapFun fun) override;
+  // Specific member function (inherited from InOrderMappableContainer)
+  void InOrderMap(MapFun fun) override; // Override InOrderMappableContainer member
 
   /* ************************************************************************ */
 
-  // Specific member function (inherited from MutableBreadthMappableContainer)
-
-  // type BreadthMap(arguments) specifiers; // Override MutableBreadthMappableContainer member
-  void BreadthMap(MapFun fun) override;
+  // Specific member function (inherited from BreadthMappableContainer)
+  void BreadthMap(MapFun fun) override; // Override BreadthMappableContainer member
 
 protected:
 
-  // Auxiliary member function (for MutablePreOrderMappableContainer)
-
-  // type PreOrderMap(arguments) specifiers; // Accessory function executing from one node of the tree
+  // Auxiliary functions, if necessary!
   void PreOrderMap(MapFun fun, MutableNode * cur);
-
-  /* ************************************************************************ */
-
-  // Auxiliary member function (for MutablePostOrderMappableContainer)
-
-  // type PostOrderMap(arguments) specifiers; // Accessory function executing from one node of the tree
   void PostOrderMap(MapFun fun, MutableNode * cur);
-
-  /* ************************************************************************ */
-
-  // Auxiliary member function (for MutableInOrderMappableContainer)
-
-  // type InOrderMap(arguments) specifiers; // Accessory function executing from one node of the tree
   void InOrderMap(MapFun fun, MutableNode * cur);
-
-  /* ************************************************************************ */
-
-  // Auxiliary member function (for MutableBreadthMappableContainer)
-
-  // type BreadthMap(arguments) specifiers; // Accessory function executing from one node of the tree
   void BreadthMap(MapFun fun, MutableNode * cur);
 
 };

@@ -6,7 +6,7 @@ namespace lasd {
 template <>
 class Hashable<int> {
     public:
-        ulong operator()(const int & dat) const noexcept {
+        unsigned long operator()(const int & dat) const noexcept {
             return dat * dat;
         }
 };
@@ -16,7 +16,7 @@ class Hashable<std::string> {
     public:
     //DJB2
         unsigned long operator()(const std::string& data) const noexcept {
-            ulong hash = 5381;
+            unsigned long hash = 5381;
             
     	    for (char c : data) {
                hash = ((hash << 5) + hash) + c; // hash * 33 + c
@@ -29,9 +29,9 @@ class Hashable<std::string> {
 template<>
 class Hashable<double> {
     public:
-        ulong operator()(const double& dat) const noexcept {
-            ulong intgpart = floor(dat);
-            ulong fracpart = pow(2, 24) * (dat - intgpart);
+        unsigned long operator()(const double& dat) const noexcept {
+            unsigned long intgpart = floor(dat);
+            unsigned long fracpart = pow(2, 24) * (dat - intgpart);
             return (intgpart * fracpart);
         }
 };

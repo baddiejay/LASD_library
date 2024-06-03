@@ -6,30 +6,18 @@ namespace lasd {
 // *********** NODE *****************
 
 template <typename Data>
-BinaryTreeLnk<Data>::NodeLnk::NodeLnk(const Data &newData) {
-    data=newData;
-    leftChild = nullptr;
-    rightChild = nullptr;
-}
+BinaryTreeLnk<Data>::NodeLnk::NodeLnk(const Data &newData) : data(newData), leftChild(nullptr), rightChild(nullptr) {}
 
 template <typename Data>
-BinaryTreeLnk<Data>::NodeLnk::NodeLnk(Data &&newData) noexcept {
-    std::swap(data, newData);
-    leftChild = nullptr;
-    rightChild = nullptr;
-}
+BinaryTreeLnk<Data>::NodeLnk::NodeLnk(Data &&newData) noexcept : data(std::move(newData)), leftChild(nullptr), rightChild(nullptr){}
 
 template <typename Data>
 BinaryTreeLnk<Data>::NodeLnk::~NodeLnk() {
-    if(leftChild != nullptr) {
-        delete leftChild;
-        leftChild = nullptr;
-    }
-
-    if(rightChild != nullptr) {
-        delete rightChild;
-        rightChild = nullptr;  
-    }
+    delete leftChild;
+    leftChild = nullptr;
+    
+    delete rightChild;
+    rightChild = nullptr;
 }
 
 template <typename Data>
@@ -138,20 +126,15 @@ BinaryTreeLnk<Data>::~BinaryTreeLnk() {
 
 template <typename Data>
 BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::recursiveCopyTree(NodeLnk * copyNode) {
-    NodeLnk* node = nullptr;
+    if (copyNode == nullptr) return nullptr;
 
-    if(copyNode!=nullptr){
-        node = new NodeLnk(copyNode->data);
-        if(copyNode->leftChild!=nullptr) {
-            node->leftChild = recursiveCopyTree(copyNode->leftChild);
-        }
-        if(copyNode->rightChild!=nullptr) {
-            node->rightChild = recursiveCopyTree(copyNode->rightChild);
-        }
-    }
-    return node;
+    NodeLnk* newNode = new NodeLnk(copyNode->data);
+    newNode->leftChild = recursiveCopyTree(copyNode->leftChild);
+    newNode->rightChild = recursiveCopyTree(copyNode->rightChild);
+    return newNode;
 }
 
+// Members of the base class must be initialized in the constructor body of the derived class, not in the initialization list of the constructor of the derived class
 template <typename Data>
 BinaryTreeLnk<Data>::BinaryTreeLnk(const BinaryTreeLnk<Data> &binaryTreeLnk) {
     size=binaryTreeLnk.size;
@@ -168,12 +151,11 @@ BinaryTreeLnk<Data>::BinaryTreeLnk(BinaryTreeLnk<Data> &&binaryTreeLnk) noexcept
 
 template <typename Data>
 BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(const BinaryTreeLnk<Data> &binaryTreeLnk) {
-    if(binaryTreeLnk.size!=0) {
-        BinaryTreeLnk<Data>* tmpBinaryTreeLnk = new BinaryTreeLnk<Data>(binaryTreeLnk);
-        std::swap(*tmpBinaryTreeLnk, *this);
-        delete tmpBinaryTreeLnk;
-    } else{
+// The recursiveCopyTree function recursively copies the tree nodes, creating a new structure identical to the source tree while avoiding an additional call to new and delete, which can be costly in terms of performance and introduces additional complexity.
+    if (this != &binaryTreeLnk) {
         Clear();
+        root = recursiveCopyTree(binaryTreeLnk.root);
+        size = binaryTreeLnk.size;
     }
     return *this;
 }
@@ -196,7 +178,7 @@ bool BinaryTreeLnk<Data>::operator!=(const BinaryTreeLnk<Data> &binaryTreeLnk) c
 }
 
 template <typename Data>
-BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::Root() const {
+const BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::Root() const {
     if(root==nullptr) {
         throw std::length_error("Empty BinaryTreeLnk");
     }

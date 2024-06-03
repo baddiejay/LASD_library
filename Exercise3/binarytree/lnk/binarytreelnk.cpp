@@ -7,25 +7,20 @@ namespace lasd {
 
 template <typename Data>
 BinaryTreeLnk<Data>::NodeLnk::NodeLnk(const Data &newData) {
-    
     data=newData;
-    
     leftChild = nullptr;
     rightChild = nullptr;
 }
 
 template <typename Data>
 BinaryTreeLnk<Data>::NodeLnk::NodeLnk(Data &&newData) noexcept {
-    
     std::swap(data, newData);
-    
     leftChild = nullptr;
     rightChild = nullptr;
 }
 
 template <typename Data>
 BinaryTreeLnk<Data>::NodeLnk::~NodeLnk() {
-    
     if(leftChild != nullptr) {
         delete leftChild;
         leftChild = nullptr;
@@ -59,8 +54,7 @@ bool BinaryTreeLnk<Data>::NodeLnk::HasRightChild() const noexcept {
 
 
 template <typename Data>
-BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::LeftChild() const {
-    
+const BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::LeftChild() const {
     if(!HasLeftChild()) {
         throw std::out_of_range("No left child");
     }
@@ -70,8 +64,7 @@ BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::LeftChild() const {
 
 
 template <typename Data>
-BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::RightChild() const {
-    
+const BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::RightChild() const { 
     if(!HasRightChild()) {
         throw std::out_of_range("No right child");
     }
@@ -81,7 +74,6 @@ BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::RightChild() const {
 
 template <typename Data>
 BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::LeftChild() {
-    
     if(!HasLeftChild()) {
         throw std::out_of_range("No left child");
     }
@@ -91,11 +83,9 @@ BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::LeftChild() {
 
 template <typename Data>
 BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::RightChild() {
-    
     if(!HasRightChild()) {
         throw std::out_of_range("No right child");
     }
-
     return *rightChild;
 }
 

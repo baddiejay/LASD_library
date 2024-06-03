@@ -183,13 +183,13 @@ public:
     /* ********************************************************************** */
 
     // Specific member functions
-    using BinaryTree<Data>::Node::Element;
+    using BinaryTree<Data>::Node::Element; // Make Element method from base class visible
     virtual Data& Element() noexcept = 0; // Mutable access to the element (concrete function should not throw exceptions)
 
-    using BinaryTree<Data>::Node::LeftChild;
+    using BinaryTree<Data>::Node::LeftChild; // Make LeftChild method from base class visible
     virtual MutableNode& LeftChild() = 0; // (concrete function must throw std::out_of_range when not existent)
     
-    using BinaryTree<Data>::Node::RightChild;
+    using BinaryTree<Data>::Node::RightChild; // Make RightChild method from base class visible
     virtual MutableNode& RightChild() = 0; // (concrete function must throw std::out_of_range when not existent)
   };
 

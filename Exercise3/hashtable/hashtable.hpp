@@ -21,7 +21,7 @@ class Hashable {
 
 public:
 
-  unsigned long operator()(const Data&) const noexcept; // (concrete function should not throw exceptions)
+  virtual unsigned long operator()(const Data&) const noexcept = 0; // (concrete function should not throw exceptions)
 
 };
 

@@ -63,7 +63,7 @@ protected:
       NodeLnk& LeftChild() override;
       NodeLnk& RightChild() override;
 
-      //any other method that is not overridden is automatically taken from the base class
+      //Any other method that is not overridden is automatically taken from the base class
   };
 
   NodeLnk * root = nullptr;
@@ -97,11 +97,9 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument) specifiers;
   BinaryTreeLnk& operator=(const BinaryTreeLnk&);
 
   // Move assignment
-  // type operator=(argument) specifiers;
   BinaryTreeLnk& operator=(BinaryTreeLnk&&) noexcept;
 
   /* ************************************************************************ */

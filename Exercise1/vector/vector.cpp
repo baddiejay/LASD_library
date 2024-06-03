@@ -11,30 +11,32 @@ Vector<Data>::Vector(const unsigned long newsize){
 }
 
 template <typename Data>
-Vector<Data>::Vector(const MappableContainer<Data>& mc){
+Vector<Data>::Vector(const TraversableContainer<Data>& con) : Vector(con.Size()) {
   //Scan the container and populate my array cell by cell
-  //MappableContainer doesn't have operator[], but I can use the map function
-  size = mc.Size();
-  elements = new Data[size];
+  //TraversableContainer doesn't have operator[], but I can use the traverse function
   unsigned long i = 0;
-  
-  mc.Map([this, &i] (const Data& data) {elements[i++] = data;});
+  con.Traverse(
+    [this, &i] (const Data& data) {
+        elements[i++] = data;
+        }
+    );
 }
 
 template <typename Data>
-Vector<Data>::Vector(MutableMappableContainer<Data>&& mmc) noexcept{
+Vector<Data>::Vector(MappableContainer<Data>&& mmc) : Vector(std::move(mmc.Size())){
   //Since it is mutable I can modify it then better build by move.
-  size = mmc.Size();
-  elements = new Data[size];
   unsigned long i = 0;
-  
-  mmc.Map([this, &i] (const Data& data) {elements[i++] = std::move(data);});
+
+  mmc.Map(
+    [this, &i] (Data& data) {
+        elements[i++] = std::move(data);
+        }
+    );
 }
 
 template <typename Data>
 Vector<Data>::Vector(const Vector<Data>& v){
   elements = new Data[v.size];
-
   //First element, last element and where to put it. The more expensive the copy, the larger the container. Linear on size
   std::copy(v.elements,v.elements + v.size, elements);
   size = v.size;
@@ -73,13 +75,15 @@ Vector<Data>& Vector<Data>::operator=(Vector<Data> && v) noexcept{
 
 template <typename Data>
 bool inline Vector<Data>::operator==(const Vector<Data>& v) const noexcept{
-  if(size != v.size())
+  if(size != v.size)
     return false;
+
   for(unsigned long i = 0; i < size; i++){
     if(elements[i] != v[i])
       return false;
   }
-    return true;
+    
+  return true;
 }
 
 template <typename Data>  
@@ -88,7 +92,7 @@ bool inline Vector<Data>::operator!=(const Vector<Data>& v) const noexcept{
 }
 
 template <typename Data>
-void Vector<Data>::Clear() noexcept{
+void Vector<Data>::Clear(){
   //Deleting what's inside the vector
   delete[] elements;
   //Setting the pointer to null
@@ -161,44 +165,40 @@ Data& Vector<Data>::Back(){
     throw std::length_error("Trying to access the back of an empty array");
 }
 
+// ****************** SORTABLE VECTOR ********************
+
+// Specific constructors
 template <typename Data>
-void Vector<Data>::Sort() noexcept{
-  if(size > 1)
-    quickSort(0, size - 1);
-}
+SortableVector<Data>::SortableVector(const unsigned long new_size) : Vector<Data>(new_size) {}
 
 template <typename Data>
-void Vector<Data>::quickSort(unsigned long p, unsigned long r) noexcept{
-  if(p < r) {
-    unsigned long q = partition(p,r);
-    quickSort(p,q);
-    quickSort(q+1,r);
-  }
-}
+SortableVector<Data>::SortableVector(const TraversableContainer<Data> & con) : Vector<Data>(con) {}
 
 template <typename Data>
-unsigned long Vector<Data>::partition(unsigned long p, unsigned long r) noexcept{
-  Data pivot = elements[p];
-  
-  unsigned long i = p-1;
-  unsigned long j = r+1;
-  
-  do{
-    //Repeat until I find an element that violates my condition. I repeat until I find an element smaller than the pivot
-    do{
-      j--;
-    } while (pivot < elements[i]);  //As soon as I find an element smaller than the pivot I switch to the other index
-    do{
-      j--;
-    } while (pivot > elements[i]); //As soon as I find an element larger than the pivot I switch to the other index
-    if(i < j){
-      std::swap(elements[i],elements[j]);    
-    }
-  //When i > j the loops end since the index are crossed and no more elements remains
-  } while (i < j);
-  
-  return j;
+SortableVector<Data>::SortableVector(MappableContainer<Data> && con) : Vector<Data>(std::move(con)) {}
+
+// Copy constructor
+template <typename Data>
+SortableVector<Data>::SortableVector(const SortableVector& v) : Vector<Data>(v) {}
+
+// Move constructor
+template <typename Data>
+SortableVector<Data>::SortableVector(SortableVector&& v) noexcept : Vector<Data>(std::move(v)) {}
+
+// Copy assignment
+template <typename Data>
+SortableVector<Data>& SortableVector<Data>::operator=(const SortableVector& v){
+    Vector<Data>::operator=(v);
+    return *this;
 }
+
+// Move assignment
+template <typename Data>
+SortableVector<Data>& SortableVector<Data>::operator=(SortableVector&& v) noexcept{
+    Vector<Data>::operator=(std::move(v));
+    return *this;
+}
+
 /* ************************************************************************** */
 
 }

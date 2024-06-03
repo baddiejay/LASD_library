@@ -20,7 +20,7 @@ int main()
     std::cin  >> scelta;
     if(scelta == 1)
       lasdtest();
-    if(scelta == 2)
+    if(scelta == 2) 
       Menu();
     if(scelta == 3)
       MenuUtente();

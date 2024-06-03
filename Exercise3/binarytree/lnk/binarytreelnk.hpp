@@ -22,51 +22,43 @@ private:
 
 protected:
 
-  // using BinaryTree<Data>::???;
   using BinaryTree<Data>::size;
 
   // ...
 
   struct NodeLnk : virtual public MutableBinaryTree<Data>::MutableNode { // Must extend MutableNode
 
-  private:
-
-    // ...
-
-  protected:
-
-    // ...
-
-  public:
-
-    // ...
-    Data data;
-    
-    NodeLnk * leftChild = nullptr;
-    NodeLnk * rightChild = nullptr;
-
-    NodeLnk(const Data&);
-
-    NodeLnk(Data&&) noexcept;
-
-    virtual ~NodeLnk();
-
-    const Data& Element() const noexcept override;
-
-    Data& Element() noexcept override;
-
-    bool HasLeftChild() const noexcept override;
-
-    bool HasRightChild() const noexcept override;
-
-    NodeLnk& LeftChild() const override;
-
-    NodeLnk& RightChild() const override;
-
-    NodeLnk& LeftChild() override;
-
-    NodeLnk& RightChild() override;
-
+    private:
+  
+      // ...
+  
+    protected:
+  
+      // ...
+  
+    public:
+  
+      // ...
+      Data data;
+      
+      NodeLnk * leftChild = nullptr;
+      NodeLnk * rightChild = nullptr;
+  
+      NodeLnk(const Data&);
+  
+      NodeLnk(Data&&) noexcept;
+  
+      virtual ~NodeLnk();
+  
+      const Data& Element() const noexcept override;
+      Data& Element() noexcept override;
+      bool HasLeftChild() const noexcept override;
+      bool HasRightChild() const noexcept override;
+      NodeLnk& LeftChild() const override;
+      NodeLnk& RightChild() const override;
+      NodeLnk& LeftChild() override;
+      NodeLnk& RightChild() override;
+  
   };
 
   NodeLnk * root = nullptr;

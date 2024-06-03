@@ -4,12 +4,13 @@ namespace lasd {
 
 // *************************** NODE ***************************
 
+/* This function checks whether the current nodes (this) and the node passed as parameter (node) are equal. 
+Equality is determined not only by comparing the values contained in the nodes, but also by the structure 
+of the tree starting with these nodes (i.e. their children).*/
 template <typename Data>
 bool BinaryTree<Data>::Node::operator==(const Node &node) const noexcept {
-    
-    if (node.Element() == Element()){
-         
-        bool hasRChild = HasRightChild();
+    if (node.Element() == Element()){      //The data contained in the two nodes are compared.
+        bool hasRChild = HasRightChild();  //It is checked whether each node has a left and right child for this and node
         bool hasLChild = HasLeftChild(); 
 
         bool otherHasRChild = node.HasRightChild();
@@ -18,27 +19,19 @@ bool BinaryTree<Data>::Node::operator==(const Node &node) const noexcept {
         bool right = (hasRChild == otherHasRChild);
         bool left = (hasLChild == otherHasLChild); 
 
+        //If both nodes have the same structure (both have or do not have left and right children), the children are compared recursively.
         if(left && right){ 
-            
             if (hasLChild && hasRChild){
-
                 return ((node.LeftChild() == LeftChild()) && (node.RightChild() == RightChild()));
-
             } else if (hasLChild) {
-
                 return (node.LeftChild() == LeftChild());
-
             } else if (hasRChild) {
-
                 return (node.RightChild() == RightChild());
-
             } else {
-
-                return true;
+                return true;    //If none of the nodes have children, they are equal.
             }
         }
     }
-
   return false;
 }
 
@@ -52,21 +45,18 @@ bool BinaryTree<Data>::Node::IsLeaf() const noexcept {
     return (!HasRightChild() && !HasLeftChild());
 }
 
+/* Since operator== for the nodes provides a detailed comparison between nodes in a binary tree 
+(considering both the value contained in the nodes and the structure of the tree), 
+I only need to start the comparison between the two roots*/
 template <typename Data>
 bool BinaryTree<Data>::operator==(const BinaryTree<Data> &binaryTree) const noexcept {
     if (size == binaryTree.size) {
-
         if (size != 0) {
-            
-            return Root() == binaryTree.Root();
-
+            return (Root() == binaryTree.Root());
         } else {
-
             return true;
         }
-            
     } else {
-
         return false;
     }
 }
@@ -90,15 +80,11 @@ void BinaryTree<Data>::PreOrderTraverse(TraverseFun fun) const {
 
 template <typename Data>
 void BinaryTree<Data>::PreOrderTraverse(TraverseFun fun,  const Node * cur) const {
-    
-    if(cur != nullptr){
-        
+    if(cur != nullptr){    
         fun(cur->Element());
-
         if(cur->HasLeftChild()){
             PreOrderTraverse(fun, &(cur->LeftChild()));
         }
-
         if(cur->HasRightChild()) {
             PreOrderTraverse(fun, &(cur->RightChild()));
         }
@@ -112,21 +98,16 @@ void BinaryTree<Data>::PostOrderTraverse(TraverseFun fun) const {
 
 template <typename Data>
 void BinaryTree<Data>::PostOrderTraverse(TraverseFun fun, const Node * cur) const {
-    
-    if(cur != nullptr){
-        
+    if(cur != nullptr){    
         if(cur->HasLeftChild()) {
             PostOrderTraverse(fun, &(cur->LeftChild()));
         }
-        
         if(cur->HasRightChild()) {
             PostOrderTraverse(fun, &(cur->RightChild()));
         }
-        
         fun(cur->Element());
     }
 }
-
 
 template <typename Data>
 void BinaryTree<Data>::InOrderTraverse(TraverseFun fun) const {
@@ -135,21 +116,16 @@ void BinaryTree<Data>::InOrderTraverse(TraverseFun fun) const {
 
 template <typename Data>
 void BinaryTree<Data>::InOrderTraverse(TraverseFun fun, const Node* cur) const {
-    
-    if(cur != nullptr){
-        
+    if(cur != nullptr){    
         if(cur->HasLeftChild()){
             InOrderTraverse(fun,  &(cur->LeftChild()));
         }
-
         fun(cur->Element());
-
         if(cur->HasRightChild()){
             InOrderTraverse(fun, &(cur->RightChild()));
         }
     }
 }
-
 
 template <typename Data>
 void BinaryTree<Data>::BreadthTraverse(TraverseFun fun) const {
@@ -157,23 +133,18 @@ void BinaryTree<Data>::BreadthTraverse(TraverseFun fun) const {
 }
 
 template <typename Data>
-void BinaryTree<Data>::BreadthTraverse(TraverseFun fun, const Node* node) const {
-    
+void BinaryTree<Data>::BreadthTraverse(TraverseFun fun, const Node* node) const {    
     QueueLst<const Node*> tmpQueue;
     tmpQueue.Enqueue(node);
     
     const Node* tmp;
 
     while(!(tmpQueue.Empty())){
-        
         tmp = tmpQueue.HeadNDequeue();
-        
         fun(tmp->Element());
-        
         if(tmp->HasLeftChild()) {
             tmpQueue.Enqueue(&(tmp->LeftChild()));
         }
-        
         if(tmp->HasRightChild()){
             tmpQueue.Enqueue(&(tmp->RightChild()));
         }
@@ -193,15 +164,11 @@ void MutableBinaryTree<Data>::PreOrderMap(MapFun fun) {
 
 template <typename Data>
 void MutableBinaryTree<Data>::PreOrderMap(MapFun fun, MutableNode * cur)  {
-    
     if(cur != nullptr){
-        
         fun(cur->Element());
-
         if(cur->HasLeftChild()) {
             PreOrderMap(fun, &(cur->LeftChild()));
         }
-
         if(cur->HasRightChild()) {
             PreOrderMap(fun, &(cur->RightChild()));
         }
@@ -215,21 +182,16 @@ void MutableBinaryTree<Data>::PostOrderMap(MapFun fun) {
 
 template <typename Data>
 void MutableBinaryTree<Data>::PostOrderMap(MapFun fun, MutableNode * cur) {
-    
     if(cur != nullptr){
-        
         if(cur->HasLeftChild()) {
             PostOrderMap(fun, &(cur->LeftChild()));
         }
-        
         if(cur->HasRightChild()) {
             PostOrderMap(fun, &(cur->RightChild()));
         }
-        
         fun(cur->Element());
     }
 }
-
 
 template <typename Data>
 void MutableBinaryTree<Data>::InOrderMap(MapFun fun) {
@@ -237,22 +199,17 @@ void MutableBinaryTree<Data>::InOrderMap(MapFun fun) {
 }
 
 template <typename Data>
-void MutableBinaryTree<Data>::InOrderMap(MapFun fun, MutableNode* cur) {
-    
+void MutableBinaryTree<Data>::InOrderMap(MapFun fun, MutableNode* cur) {    
     if(cur != nullptr){
-        
         if(cur->HasLeftChild()){
             InOrderMap(fun,  &(cur->LeftChild()));
         }
-
         fun(cur->Element());
-
         if(cur->HasRightChild()){
             InOrderMap(fun, &(cur->RightChild()));
         }
     }
 }
-
 
 template <typename Data>
 void MutableBinaryTree<Data>::BreadthMap(MapFun fun) {
@@ -260,23 +217,18 @@ void MutableBinaryTree<Data>::BreadthMap(MapFun fun) {
 }
 
 template <typename Data>
-void MutableBinaryTree<Data>::BreadthMap(MapFun fun,  MutableNode* node) {
-    
+void MutableBinaryTree<Data>::BreadthMap(MapFun fun,  MutableNode* node) {    
     QueueLst<MutableNode*> tmpQueue;
     tmpQueue.Enqueue(node);
     
     MutableNode* tmp;
-
-    while(!(tmpQueue.Empty())){
-        
+    
+    while(!(tmpQueue.Empty())){    
         tmp = tmpQueue.HeadNDequeue();
-        
         fun(tmp->Element());
-        
         if(tmp->HasLeftChild()) {
             tmpQueue.Enqueue(&(tmp->LeftChild()));
         }
-        
         if(tmp->HasRightChild()){
             tmpQueue.Enqueue(&(tmp->RightChild()));
         }

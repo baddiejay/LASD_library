@@ -168,7 +168,6 @@ public:
                         // Must extend Node
 
     friend class MutableBinaryTree<Data>;
-    /* ********************************************************************** */
 
     // Destructor
     virtual ~MutableNode() = default;

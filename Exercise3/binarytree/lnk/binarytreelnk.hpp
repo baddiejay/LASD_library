@@ -39,11 +39,14 @@ protected:
     public:
   
       // ...
-      Data data;
+      Data data {};
       
       NodeLnk * leftChild = nullptr;
       NodeLnk * rightChild = nullptr;
 
+      //Default constructor
+      NodeLnk() = default;
+    
       //Specific constructor
       NodeLnk(const Data&);
 
@@ -54,10 +57,10 @@ protected:
       virtual ~NodeLnk();
 
       //Specific member functions 
-      const Data& Element() const noexcept override;
-      Data& Element() noexcept override;
-      bool HasLeftChild() const noexcept override;
-      bool HasRightChild() const noexcept override;
+      inline const Data& Element() const noexcept override;
+      inline Data& Element() noexcept override;
+      inline bool HasLeftChild() const noexcept override;
+      inline bool HasRightChild() const noexcept override;
       const NodeLnk& LeftChild() const override;
       const NodeLnk& RightChild() const override;
       NodeLnk& LeftChild() override;

@@ -21,22 +21,22 @@ BinaryTreeLnk<Data>::NodeLnk::~NodeLnk() {
 }
 
 template <typename Data>
-const Data& BinaryTreeLnk<Data>::NodeLnk::Element() const noexcept {
+inline const Data& BinaryTreeLnk<Data>::NodeLnk::Element() const noexcept {
     return data;
 }
 
 template <typename Data>
-Data& BinaryTreeLnk<Data>::NodeLnk::Element() noexcept {
+inline Data& BinaryTreeLnk<Data>::NodeLnk::Element() noexcept {
     return data;
 }
 
 template <typename Data>
-bool BinaryTreeLnk<Data>::NodeLnk::HasLeftChild() const noexcept {
+inline bool BinaryTreeLnk<Data>::NodeLnk::HasLeftChild() const noexcept {
     return (leftChild!=nullptr);
 }
 
 template <typename Data>
-bool BinaryTreeLnk<Data>::NodeLnk::HasRightChild() const noexcept {
+inline bool BinaryTreeLnk<Data>::NodeLnk::HasRightChild() const noexcept {
     return (rightChild!=nullptr);
 }
 

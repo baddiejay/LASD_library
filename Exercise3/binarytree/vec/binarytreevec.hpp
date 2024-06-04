@@ -42,28 +42,33 @@ protected:
 
     // ...
 
-    Data data;
+    Data data {};
     Vector<NodeVec*> * tree = nullptr;
     unsigned long index = 0;
 
+    //Default constructor
     NodeVec() = default;
+    
+    //Specific constructor
+    NodeVec(const Data&, unsigned long, Vector<NodeVec*> *);
+    
+    //Specific move constructor
+    NodeVec(Data&&, unsigned long, Vector<NodeVec*> *);
 
-    NodeVec(const Data&, ulong, Vector<NodeVec*> *);
-
-    NodeVec(Data&&, ulong, Vector<NodeVec*> *);
-
-    // Destructor
+    //Destructor
     virtual ~NodeVec() = default;
 
-    // Specific member functions
-    const Data& Element() const noexcept override;
-    Data& Element() noexcept override;
-    bool HasLeftChild() const noexcept override;
-    bool HasRightChild() const noexcept override;
+    //Specific member functions 
+    inline const Data& Element() const noexcept override;
+    inline Data& Element() noexcept override;
+    inline bool HasLeftChild() const noexcept override;
+    inline bool HasRightChild() const noexcept override;
     const NodeVec& LeftChild() const override;
     const NodeVec& RightChild() const override;
     NodeVec& LeftChild() override;
     NodeVec& RightChild() override;
+    
+    //Any other method that is not overridden is automatically taken from the base class
 
   };
 
@@ -111,34 +116,31 @@ public:
 
   // Specific member functions (inherited from BinaryTree)
 
-  // type Root() specifiers; 
-  const NodeVec& Root() const override; // Override BinaryTree member (throw std::length_error when empty)
+  const NodeVec& Root() const override;
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from MutableBinaryTree)
-
-  NodeVec& Root() override; // Override MutableBinaryTree member (throw std::length_error when empty)
+  NodeVec& Root() override;
 
   /* ************************************************************************ */
 
   // Specific member function (inherited from ClearableContainer)
-
-  void Clear() noexcept override; // Override ClearableContainer member (throw std::length_error when empty)
+  void Clear() noexcept override;
 
   /* ************************************************************************ */
 
-  // Specific member function (inherited from BreadthTraversableContainer)
+  // Specific member function (inherited from TraversableContainer))
   using typename TraversableContainer<Data>::TraverseFun;
 
   void BreadthTraverse(TraverseFun fun) const override; // Override BreadthTraversableContainer member
 
   /* ************************************************************************ */
 
-  // Specific member function (inherited from BreadthMappableContainer)
+  // Specific member functions (inherited from BreadthMappableContainer)
   using typename MappableContainer<Data>::MapFun;
 
-  void BreadthMap(MapFun fun) override; // Override BreadthMappableContainer member
+  void BreadthMap(MapFun fun) override; // Override BreadthTraversableContainer member
 
   /* ************************************************************************ */
 

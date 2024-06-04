@@ -269,74 +269,58 @@ protected:
  // using typename BinaryTree<Data>::Node;
   
   const typename BinaryTree<Data>::Node * current = nullptr;
-
   const typename BinaryTree<Data>::Node * root = nullptr;
-  
+ 
   StackLst<const typename BinaryTree<Data>::Node*> stack;
 
 public:
 
   // Specific constructors
-  // BTPreOrderIterator(argument) specifiers; // An iterator over a given binary tree
-  BTPreOrderIterator(const BinaryTree<Data>&);
+  BTPreOrderIterator(const BinaryTree<Data>&); // An iterator over a given binary tree
 
   /* ************************************************************************ */
 
   // Copy constructor
-  // BTPreOrderIterator(argument) specifiers;
   BTPreOrderIterator(const BTPreOrderIterator&);
 
   // Move constructor
-  // BTPreOrderIterator(argument) specifiers;
   BTPreOrderIterator(BTPreOrderIterator&&) noexcept;
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~BTPreOrderIterator() specifiers;
   virtual ~BTPreOrderIterator();
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument) specifiers;
   BTPreOrderIterator& operator=(const BTPreOrderIterator&);
 
   // Move assignment
-  // type operator=(argument) specifiers;
   BTPreOrderIterator& operator=(BTPreOrderIterator&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  bool operator==(const BTPreOrderIterator&) const noexcept;
-  // type operator!=(argument) specifiers;
-  bool operator!=(const BTPreOrderIterator&) const noexcept;
+  inline bool operator==(const BTPreOrderIterator&) const noexcept;
+  inline bool operator!=(const BTPreOrderIterator&) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from Iterator)
+  const Data& operator*() const override; // (throw std::out_of_range when terminated)
 
-  // type operator*() specifiers; // (throw std::out_of_range when terminated)
-  const Data& operator*() const override;
-
-  // type Terminated() specifiers; // (should not throw exceptions)
-  bool Terminated() const noexcept override;
+  inline bool Terminated() const noexcept override; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
-  // Specific member functions (inherited from ForwardIterator)
-
-  // type operator++() specifiers; // (throw std::out_of_range when terminated)
-  BTPreOrderIterator& operator++() override;
+  // Specific member functions (inherited from ForwardIterator) 
+  BTPreOrderIterator& operator++() override; // (throw std::out_of_range when terminated)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from ResettableIterator)
-
-  // type Reset() specifiers; // (should not throw exceptions)
-  void Reset() noexcept override;
+  void Reset() noexcept override; // (should not throw exceptions)
 
 };
 

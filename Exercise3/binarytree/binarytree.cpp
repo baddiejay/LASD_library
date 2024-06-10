@@ -70,12 +70,16 @@ bool BinaryTree<Data>::operator!=(const BinaryTree<Data> &binaryTree) const noex
 
 template <typename Data>
 void BinaryTree<Data>::Traverse(TraverseFun fun) const {
-    PreOrderTraverse(fun, &Root());
+    if(!this->Empty()){
+      PreOrderTraverse(fun, &Root());
+    }
 }
 
 template <typename Data>
 void BinaryTree<Data>::PreOrderTraverse(TraverseFun fun) const {
-    PreOrderTraverse(fun, &Root());
+    if(!this->Empty()){
+      PreOrderTraverse(fun, &Root());
+    }
 }
 
 template <typename Data>
@@ -93,7 +97,9 @@ void BinaryTree<Data>::PreOrderTraverse(TraverseFun fun,  const Node * cur) cons
 
 template <typename Data>
 void BinaryTree<Data>::PostOrderTraverse(TraverseFun fun) const {
-    PostOrderTraverse(fun, &Root());
+    if(!this->Empty()){
+      PostOrderTraverse(fun, &Root());
+    }
 }
 
 template <typename Data>
@@ -111,7 +117,9 @@ void BinaryTree<Data>::PostOrderTraverse(TraverseFun fun, const Node * cur) cons
 
 template <typename Data>
 void BinaryTree<Data>::InOrderTraverse(TraverseFun fun) const {
-    InOrderTraverse(fun, &Root());
+    if(!this->Empty()){
+      InOrderTraverse(fun, &Root());
+    }
 }
 
 template <typename Data>
@@ -129,7 +137,9 @@ void BinaryTree<Data>::InOrderTraverse(TraverseFun fun, const Node* cur) const {
 
 template <typename Data>
 void BinaryTree<Data>::BreadthTraverse(TraverseFun fun) const {
-    BreadthTraverse(fun, &Root());
+    if(!this->Empty()){
+      BreadthTraverse(fun, &Root());
+    }
 }
 
 template <typename Data>

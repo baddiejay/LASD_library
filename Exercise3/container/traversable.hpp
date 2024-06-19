@@ -62,6 +62,9 @@ public:
   template <typename Accumulator>
   using FoldFun = std::function<Accumulator(const Data &, const Accumulator &)>;
 
+  /*The Fold function applies the reduction function f to each element in the collection, 
+  starting with the initial value init and updating the accumulator at each step. 
+  When finished, it returns the final value of the accumulator.*/
   template <typename Accumulator>
   Accumulator Fold(FoldFun<Accumulator>, Accumulator) const;
 

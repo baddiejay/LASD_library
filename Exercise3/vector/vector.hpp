@@ -111,7 +111,7 @@ private:
 
 protected:
 
-  // using Container::???;
+  using Container::size;
 
   // ...
 

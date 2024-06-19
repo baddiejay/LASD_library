@@ -60,15 +60,17 @@ List<Data>::List(MappableContainer<Data> && con){
 
 template<typename Data>
 List<Data>::List(const List<Data>& l){
+    // Initialise destination list as empty
+    head = nullptr;
+    size = 0;
+
+    // Copy elements from the source list only if it is not empty
     if(l.size != 0){
         Node* tmp = l.head;
         while(tmp != nullptr){
             InsertAtBack(tmp->element);
             tmp = tmp->next;
         }
-        //Since I don't have any reference to tmp outside the function, I have to delete here
-        delete tmp;
-        tmp = nullptr;
     }
 }
 
@@ -82,17 +84,17 @@ List<Data>::List(List && l) noexcept{
 
 template<typename Data>
 List<Data>::~List(){
-    delete head; //OPPURE CHIAMO CLEAR
+    delete head; 
 }
 
 template <typename Data>
 List<Data>& List<Data>::operator=(const List<Data>& l){
-  //Building a new list using the copy constructor. Copy and swap idiom
-  List<Data>* tmp = new List<Data>(l);
-  std::swap(*tmp, *this);
-  delete tmp;
+  //COPY AND SWAP IDIOM
+  if (this != &l) { // Self-assignment control
+    List<Data> tmp(l); // Use the copy constructor to create a copy of l
+    std::swap(*this, tmp); // Swap all current object with tmp
+  }
   return *this;
-  //OPPURE QUELLA DEL PROF NELLA FOTO
 } 
 
 template <typename Data>

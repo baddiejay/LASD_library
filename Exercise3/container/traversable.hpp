@@ -55,6 +55,10 @@ public:
 
   virtual void Traverse(TraverseFun) const = 0;
 
+  /* This function takes two arguments:
+    - A const Data & object (representing an element of the collection on which the reduction is being performed).
+    - A const Accumulator & object (representing the current accumulator).
+    The function returns a new value of type Accumulator, representing the new state of the accumulator after processing the Data element.*/
   template <typename Accumulator>
   using FoldFun = std::function<Accumulator(const Data &, const Accumulator &)>;
 

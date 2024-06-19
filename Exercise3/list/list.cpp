@@ -25,10 +25,7 @@ inline List<Data>::Node::Node(Node&& node) noexcept{
 
 template <typename Data>
 List<Data>::Node::~Node(){
-     if (next != nullptr) {
-        delete next;
-        next = nullptr; // Imposta il puntatore al nodo successivo a nullptr per evitare un accesso a una memoria deallocata
-    }
+     delete next;
 }
 
 template <typename Data>

@@ -108,9 +108,12 @@ void Vector<Data>::Resize(const unsigned long new_dim){
   else if(size != new_dim){
     Data* tmp = new Data[new_dim]{};
     //In this new vector I have to copy all the elements of the previous one. If I am shortening the vector I have to stop until I have space
+    //limit is the minimum between the current size and the new size. This step is necessary to preserve the existing data within the new dimension.
     unsigned long limit = (size < new_dim) ? size : new_dim;
     for(unsigned long i = 0; i < limit; i++)
       std::swap(tmp[i],elements[i]);
+    //Once the pointers are swapped, tmp points to the old array and elements points to the new resized array with all elements already individually shifted
+    //Tha's why I need to swap
     std::swap(tmp,elements); 
     size = new_dim;
     delete[] tmp;

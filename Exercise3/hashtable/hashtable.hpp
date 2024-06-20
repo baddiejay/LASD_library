@@ -36,7 +36,7 @@ private:
 
 protected:
 
-  //Tiene conto del numero di elementi presenti, diverso dalla dimensione della tabella
+  //Takes into account the number of elements present, different from the size of the table
   using DictionaryContainer<Data>::size;
 
   unsigned long a = 3;

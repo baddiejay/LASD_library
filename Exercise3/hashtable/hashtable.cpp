@@ -3,6 +3,8 @@ namespace lasd {
 /* ************************************************************************** */
 
 //**************** HASHABLE *********************
+
+//Template specialisation for a specific type
 template <>
 class Hashable<int> {
     public:

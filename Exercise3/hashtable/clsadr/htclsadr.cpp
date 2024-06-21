@@ -16,7 +16,7 @@ HashTableClsAdr<Data>::HashTableClsAdr() {
 
 template<typename Data>
 HashTableClsAdr<Data>::HashTableClsAdr(const unsigned long size) {
-    //Qualunque sia la dimensione, voglio una potenza. Se la dimensione è più piccola di 128 torno a 128
+    //Whatever the size, I want a power of 2. If the size is smaller than 128 I return 128   
     tableSize = std::pow(2, std::ceil(log2((size <= 128) ? 128 : size)));
     table = new List<Data>[tableSize] {};
 }
@@ -80,18 +80,18 @@ HashTableClsAdr<Data>::HashTableClsAdr(HashTableClsAdr&& hashTable) noexcept : H
 
 template<typename Data>
 HashTableClsAdr<Data>& HashTableClsAdr<Data>::operator=(HashTableClsAdr&& hashTable) noexcept {
-    if (this != &hashTable) { // Controllo di auto-assegnazione
-        HashTable<Data>::operator=(std::move(hashTable)); // Assegnazione dei membri della classe base
-        std::swap(table, hashTable.table); // Scambio delle risorse
+    if (this != &hashTable) { 
+        HashTable<Data>::operator=(std::move(hashTable)); 
+        std::swap(table, hashTable.table);
     }
     return *this;
 }
 
 template <typename Data>
 HashTableClsAdr<Data> & HashTableClsAdr<Data>::operator=(const HashTableClsAdr<Data> & hashTable) {
-    if (this != &hashTable) { // Controllo di auto-assegnazione
+    if (this != &hashTable) { 
         HashTableClsAdr<Data> tmp(hashTable);
-        std::swap(*this, tmp); //tmp sarà distrutto al termine della chiamata
+        std::swap(*this, tmp); 
     }
     return *this;
     /*
@@ -130,16 +130,16 @@ bool HashTableClsAdr<Data>::operator==(const HashTableClsAdr& hashTable) const n
             table[i].Traverse(
               [&hashTable, &equals](const Data& dat) {
                  if (!hashTable.Exists(dat)) {
-                    equals = false; // Elemento non trovato nell'altro hash table
+                    equals = false; // Element not found in the other hash table
                  }
               }
             );
             if(!equals) {
-              return false; // Se anche solo un bucket non corrisponde, gli hashtable non sono uguali
+              return false; // If even one of the lists does not match, the hashtables are not equal
             }
 	}
 	
-        return true; //Se esco dal ciclo tutte le chiamate ad Exists sono andate a buon fine
+        return true; // If I exit the loop all calls to Exists are successful
     }
 } 
 

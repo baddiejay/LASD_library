@@ -55,7 +55,8 @@ HashTableOpnAdr<Data>::HashTableOpnAdr(const HashTableOpnAdr& hashTable) : HashT
     if(tableSize > 0){
         table = Vector<Data>(hashTable.table);
         flags = Vector<char>(hashTable.flags);
-    } //altrimenti restano a valori di default come già inizializzati
+    } 
+    // Otherwise they remain at default values as already initialised
 }
 
 //MOVE CONSTRUCTOR
@@ -67,9 +68,9 @@ HashTableOpnAdr<Data>::HashTableOpnAdr(HashTableOpnAdr&& hashTable) noexcept : H
 
 template<typename Data>
 HashTableOpnAdr<Data>& HashTableOpnAdr<Data>::operator=(HashTableOpnAdr&& hashTable) noexcept {
-    if (this != &hashTable) { // Controllo di auto-assegnazione
-        HashTable<Data>::operator=(std::move(hashTable)); // Assegnazione dei membri della classe base
-        std::swap(table, hashTable.table); // Scambio delle risorse
+    if (this != &hashTable) { 
+        HashTable<Data>::operator=(std::move(hashTable)); 
+        std::swap(table, hashTable.table); 
         std::swap(flags, hashTable.flags);
     }
     return *this;
@@ -89,7 +90,7 @@ bool HashTableOpnAdr<Data>::operator==(const HashTableOpnAdr& hashTable) const n
         return false;
     } else {
         for (unsigned long i=0; i<tableSize; i++) {
-            if (flags[i]=='P') {  //Le celle marcate con P sono quelle dove effettivamente il dato è presente
+            if (flags[i]=='P') {  // Cells marked with P are those where the data is actually present
                 if (!hashTable.Exists(table[i])) {
                     return false;
                 }
@@ -111,7 +112,7 @@ void HashTableOpnAdr<Data>::Resize(const unsigned long newSize) {
         HashTableOpnAdr<Data> * tmp = new HashTableOpnAdr(newTableSize);
         
         for (unsigned long i=0; i<tableSize; i++) {
-            if (flags[i]=='P') {
+            if (flags[i]=='P') {    //I only rehash the really present data marked with P
                 tmp->Insert(table[i]);
             }
         }
@@ -130,6 +131,7 @@ void HashTableOpnAdr<Data>::Clear() {
     size = 0;
 }
 
+// Override of hashkey because in addition to the universal hash function I add the probing function
 template<typename Data>
 unsigned long HashTableOpnAdr<Data>::HashKey(const Data& data, unsigned long i) const noexcept {    
     return (HashKey(data) + (((i*i) + i)/2)) % tableSize;
@@ -178,7 +180,7 @@ unsigned long HashTableOpnAdr<Data>::FindEmpty(const Data& data) const noexcept 
     unsigned long i=0;
 
     while (true) {
-        unsigned long emptyIndex = (HashKey(data, i)) % tableSize;
+        unsigned long emptyIndex = (HashKey(data, i));
 
         if (flags[emptyIndex] == 'E' || flags[emptyIndex] == 'D') {
             return emptyIndex;

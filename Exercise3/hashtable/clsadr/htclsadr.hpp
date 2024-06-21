@@ -5,7 +5,6 @@
 /* ************************************************************************** */
 
 #include "../hashtable.hpp"
-// #include ...
 #include "../../list/list.hpp"
 
 /* ************************************************************************** */
@@ -27,7 +26,7 @@ protected:
   using HashTable<Data>::tableSize;
   using HashTable<Data>::HashKey;
   
-  //Vettore di liste allocato dinamicamente per gestire le collisioni
+  // List vector dynamically allocated to handle collisions
   List<Data> * table = nullptr;
   
   using DictionaryContainer<Data>::InsertAll;

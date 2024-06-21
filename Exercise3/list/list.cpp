@@ -132,6 +132,7 @@ void List<Data>::InsertAtFront(const Data& data){
   Node* tmp = new Node(data);
   tmp->next = head;
   head = tmp;
+  //In case it is the first item in the list, it's the head but also the tail
   if(tail == nullptr){
     tail = head;
   }
@@ -153,14 +154,14 @@ void List<Data>::InsertAtFront(Data&& data){
 template <typename Data>
 void List<Data>::RemoveFromFront(){
     if(head != nullptr){
-        Node * front = head;
+        Node * front = head;          // Save the address of the head I want to delete
         if(tail == head){
-            head = tail = nullptr;
+            head = tail = nullptr;    // If I have only one node the list returns empty
         } else {
-            head = head->next;
+            head = head->next;        // Otherwise place your head forward
         }
-        size--;
-        front->next = nullptr;
+        size--;  
+        front->next = nullptr;        // Detach the next one to avoid recursive deletion
         delete front;
     } else {
         throw std::length_error("Trying to access an empty list");
@@ -191,11 +192,11 @@ void List<Data>::InsertAtBack(const Data& data){
   Node* tmp = new Node(data);
 
   if(tail == nullptr){
-    head = tmp;
+    head = tmp;        // If the tail is empty, it means that it is the first element I am inserting and I also update the head
   } else{
-    tail->next = tmp;
+    tail->next = tmp;  // Otherwise, I attach the node I created to the next of the current tail
   }
-  tail = tmp;
+  tail = tmp;          //I update the new tail
   size++;
 }
 
@@ -252,7 +253,7 @@ bool List<Data>::Remove(const Data& data){
         RemoveFromFront();
         return true;
     } else {
-        Node * tmpNode1 = head;
+        Node * tmpNode1 = head;            // I always keep the reference to the previous node
         Node * tmpNode2 = head->next;
 
         while (tmpNode2 != nullptr) {
@@ -261,16 +262,13 @@ bool List<Data>::Remove(const Data& data){
             tmpNode1->next = tmpNode2->next;
             tmpNode2->next = nullptr;
             delete tmpNode2;
-            tmpNode2 = nullptr;
             size--;
+            //If the next one I hook is nullptr then I set my tail to tmp1 which is the last node in my list
             if (tmpNode1->next == nullptr){
                 tail=tmpNode1;
             }
             return true;
             //tmpNode2->next ? tmpNode2->next = nullptr : tail = tmpNode1;
-      	    delete tmpNode2;
-            size--;
-            return true;
         }
         tmpNode1 = tmpNode2;
         tmpNode2 = tmpNode2->next;
@@ -282,10 +280,10 @@ bool List<Data>::Remove(const Data& data){
 
 // Must necessarily scroll through the list, it will be just as costly as moving the element away from the list
 template <typename Data>
-const Data& List<Data>::operator[](const ulong index) const{
+const Data& List<Data>::operator[](const unsigned long index) const{
   if (index < size) {
     Node *temp = head;
-    for (ulong i=0; i<index; i++){
+    for (unsigned long i=0; i<index; i++){
       temp = temp->next;
     }
     return temp->element;
@@ -295,10 +293,10 @@ const Data& List<Data>::operator[](const ulong index) const{
 }
 
 template <typename Data>
-Data& List<Data>::operator[](const ulong index){
+Data& List<Data>::operator[](const unsigned long index){
    if (index < size) {
     Node *temp = head;
-    for (ulong i=0; i<index; i++){
+    for (unsigned long i=0; i<index; i++){
       temp = temp->next;
     }
     return temp->element;
@@ -378,8 +376,8 @@ void List<Data>::PostOrderMap(MapFun fun) {
 //********************* AUXILIARY FUNCTIONS ************************
 template <typename Data>
 void List<Data>::PreOrderTraverse(TraverseFun fun, const Node* cur) const{
-    for(; cur!=nullptr; cur=cur->next){
-    	if(cur != nullptr){ // Verifica se il nodo corrente è non nullo prima di accedere ai suoi dati
+    for(; cur!=nullptr; cur=cur->next){  //cur already initialized when passed as a parameter
+    	if(cur != nullptr){ // Checks whether the current node is non-null before accessing its data (invalid access)
             fun(cur->element);
         }
     }
@@ -388,16 +386,18 @@ void List<Data>::PreOrderTraverse(TraverseFun fun, const Node* cur) const{
 template <typename Data>
 void List<Data>::PostOrderTraverse(TraverseFun fun, const Node* cur) const{
     if (cur!=nullptr){
-    //Recursive call until i reach the end
-    PostOrderTraverse(fun, cur->next);
-    fun(cur->element);
-  }
+      //Recursive call until i reach the end
+      PostOrderTraverse(fun, cur->next);
+      fun(cur->element);
+    }
 }
 
 template <typename Data>
 void List<Data>::PreOrderMap(MapFun fun, Node * cur) {
   for (; cur!=nullptr; cur=cur->next){
-    fun(cur->element);
+    if(cur != nullptr){ // Checks whether the current node is non-null before accessing its data (invalid access)
+            fun(cur->element);
+    }
   }
 }
 

@@ -30,6 +30,8 @@ protected:
 
   using BinaryTreeLnk<Data>::size;
   using BinaryTreeLnk<Data>::root;
+  // It's used in template contexts when dealing with template-dependent types. 
+  //It serves to indicate that a specified name is a type and not a static member or function.
   using typename BinaryTreeLnk<Data>::NodeLnk;
 
 public:

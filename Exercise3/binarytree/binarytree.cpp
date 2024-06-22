@@ -327,12 +327,13 @@ template <typename Data>
 BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {    
     if(Terminated()){
         throw std::out_of_range("Iterator PreOrder has terminated.");
-    }        
+    }  
+    //By queuing in this order I have the effect of visiting the left child first when I have a new current to choose from
     if(current->HasRightChild()) {
         stack.Push(&(current->RightChild()));
     }       
     if(current->HasLeftChild()) {
-        stack.Push(&(current->LeftChild()));
+        stack.Push(&(current->LeftChild()));        
     }
     /* If the stack is empty, it means that there are no more nodes to visit, so current is set to nullptr 
     (the iterator has finished its traversal). Otherwise, the next node to visit is taken from the stack 
@@ -448,7 +449,7 @@ BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator++() {
 template <typename Data>
 void BTInOrderIterator<Data>::getCurrentMostLeftNode() {
     while (current->HasLeftChild()) { 
-        stack.Push(current);
+        stack.Push(current);   // As I go down I add discovered but unvisited nodes to the stack
         current = &(current->LeftChild());
     }
 }
@@ -457,7 +458,7 @@ template <typename Data>
 BTInOrderIterator<Data>::BTInOrderIterator(const BinaryTree<Data> &binaryTree) { 
     root = &binaryTree.Root();
     current = &binaryTree.Root();
-    getCurrentMostLeftNode();  // Sets the current to the leftmost node that is the first to be visited
+    getCurrentMostLeftNode();  // Sets the current to the leftmost node that is the first to be visited in INORDER
 }
 
 template <typename Data>
@@ -538,11 +539,14 @@ BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator++() {
     if(Terminated()) {
         throw std::out_of_range("Iterator InOrder has terminated.");
     }      
+    //if there is the right child I move to the right but this means starting the inorder visit 
+    //of a new subtree so I have to visit the left child first
     if(current->HasRightChild()){
         current = &(current->RightChild());
         getCurrentMostLeftNode();
 
     } else {
+        // If I have no right child, it is time to move up the stack
         if(stack.Empty()) {
             current = nullptr;
         } else {
@@ -632,8 +636,7 @@ bool BTPostOrderIterator<Data>::operator!=(const BTPostOrderIterator<Data> &iter
 }
 
 template <typename Data>
-void BTPostOrderIterator<Data>::Reset() noexcept
-{
+void BTPostOrderIterator<Data>::Reset() noexcept {
     current = root;   
     stack.Clear();
     if(current != nullptr) {
@@ -665,13 +668,16 @@ BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator++() {
         current = nullptr;
         last = nullptr;
     } else {
-        current = stack.TopNPop();       
+        current = stack.TopNPop(); 
+        // With last I am checking whether I am returning from the call to the left or right son because
+        // if I'm coming back from the left son and there's the right one I have to do the other half of the work
         if(current->HasRightChild() && !(&(current->RightChild())==last)){           
             stack.Push(current);
             current = &(current->RightChild());
             getCurrentMostLeftLeaf();
 
         }
+        // Otherwise it means I have visited everything and can take the root from the stack
     }
     last = current;
   

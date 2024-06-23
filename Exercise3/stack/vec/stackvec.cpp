@@ -116,6 +116,7 @@ void StackVec<Data>::Clear() noexcept{
     Vector<Data>::Resize(2);
 }
 
+// I double when I saturate the stack and halve when the stack is 1/4 of its size occupied
 template <typename Data>
 void StackVec<Data>::Expand() noexcept{
     Vector<Data>::Resize(size * 2);

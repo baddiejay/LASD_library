@@ -29,6 +29,8 @@ protected:
   using Vector<Data>::size;
   using Vector<Data>::elements;
 
+  // HEAD: first occupied element index
+  // TAIL: index first available element (1 up)
   unsigned long head = 0;
   unsigned long tail = 0;
 

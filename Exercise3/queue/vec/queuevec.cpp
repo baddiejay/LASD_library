@@ -117,6 +117,7 @@ Data QueueVec<Data>::HeadNDequeue(){
 template <typename Data>
 void QueueVec<Data>::Enqueue(const Data& data){
     Expand();
+    // I write and move tail forward
     elements[tail++] = data;
     tail %= size;
 }
@@ -163,6 +164,8 @@ void QueueVec<Data>::ResizeQueue(unsigned long newSize, unsigned long num){
 template<typename Data>
 void QueueVec<Data>::Reduce() noexcept{
     unsigned long num = Size();
+    // Size() gives me the number of elements actually contained in the queue. 
+    //When this is 1/4 of the allocated space (size) then I have to reduce the vector
     if(num + 1 == size / 4){
         ResizeQueue(size / 2, num);
     }
